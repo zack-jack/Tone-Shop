@@ -1,0 +1,16 @@
+{
+  "name": "tone-shop",
+  "version": "1.0.0",
+  "description": "Guitar e-commerce website",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "serve": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zack Jackson",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
