@@ -4,13 +4,15 @@
   "description": "Guitar e-commerce website",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "serve": "nodemon server/index.js",
+    "start": "node server/server.js",
+    "serve": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Zack Jackson",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4"
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.16"
   }
 }
