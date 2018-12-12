@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -51,9 +52,13 @@ app.post('/api/users/register', (req, res) => {
   const saltRounds = 10;
 
   bcrypt.genSalt(saltRounds, (err, salt) => {
-    if (err) throw err;
+    if (err) {
+      return res.status(500).send(err);
+    }
     bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) throw err;
+      if (err) {
+        return res.status(500).send(err);
+      }
       user.password = hash;
       console.log(user.password);
 
@@ -65,6 +70,53 @@ app.post('/api/users/register', (req, res) => {
           success: true,
           userData: doc
         });
+      });
+    });
+  });
+});
+
+// @route   POST /
+// @desc    Login user
+// @access  Public
+app.post('/api/users/login', (req, res) => {
+  // check if user exists - find by email
+  User.findOne({ email: req.body.email }).then(user => {
+    if (!user) {
+      return (
+        res.json({
+          loginSuccess: false,
+          message: 'Login failed. User not found.'
+        }),
+        res.status(404)
+      );
+    }
+
+    // check the password
+    bcrypt.compare(req.body.password, user.password).then(isMatch => {
+      if (!isMatch) {
+        return (
+          res.json({
+            loginSuccess: false,
+            message: 'Login failed. Password incorrect.'
+          }),
+          res.status(403)
+        );
+      }
+
+      // generate a token
+      const token = jwt.sign(user._id.toHexString(), process.env.SECRET_KEY);
+
+      user.token = token;
+      user.save((err, user) => {
+        if (err) {
+          return res.status(400).send(err);
+        }
+        res
+          .cookie('xAuth', user.token)
+          .status(200)
+          .json({
+            loginSuccess: true
+          });
       });
     });
   });
