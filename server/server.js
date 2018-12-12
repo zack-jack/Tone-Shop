@@ -20,6 +20,7 @@ mongoose.set('useCreateIndex', true);
 // ====================
 //   Mongoose Models
 // ====================
+const { Brand } = require('./models/brand');
 const { User } = require('./models/user');
 
 // ====================
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+const { admin } = require('./middleware/admin');
 const { auth } = require('./middleware/auth');
 
 // ====================
@@ -41,6 +43,36 @@ const { auth } = require('./middleware/auth');
 // @desc    Home route
 // @access  Public
 app.get('/', (req, res) => res.send('Hello World!'));
+
+// @route   POST /api/product/brand
+// @desc    Add new brand
+// @access  Private
+app.post('/api/product/brand', auth, (req, res) => {
+  const brand = new Brand(req.body);
+
+  brand.save((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+    res.status(200).json({
+      success: true,
+      brand: doc
+    });
+  });
+});
+
+// @route   GET /api/product/brands
+// @desc    Fetch list of brands
+// @access  Public
+app.get('/api/product/brands', (req, res) => {
+  Brand.find({}, (err, brands) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    res.status(200).send(brands);
+  });
+});
 
 // ====================
 //   User Routes
@@ -55,11 +87,11 @@ app.post('/api/users/register', (req, res) => {
 
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(400).send(err);
     }
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
       user.password = hash;
       console.log(user.password);
@@ -86,7 +118,7 @@ app.post('/api/users/login', (req, res) => {
     if (!user) {
       return (
         res.json({
-          loginSuccess: false,
+          success: false,
           message: 'Login failed. User not found.'
         }),
         res.status(404)
@@ -98,7 +130,7 @@ app.post('/api/users/login', (req, res) => {
       if (!isMatch) {
         return (
           res.json({
-            loginSuccess: false,
+            success: false,
             message: 'Login failed. Password incorrect.'
           }),
           res.status(403)
@@ -117,7 +149,7 @@ app.post('/api/users/login', (req, res) => {
           .cookie('xAuth', user.token)
           .status(200)
           .json({
-            loginSuccess: true
+            success: true
           });
       });
     });
@@ -151,10 +183,10 @@ app.get('/api/users/logout', auth, (req, res) => {
     { token: '' },
     (err, doc) => {
       if (err) {
-        return res.status(500).json({ logoutSuccess: false, err });
+        return res.status(400).json({ success: false, err });
       }
       return res.status(200).send({
-        logoutSuccess: true
+        success: true
       });
     }
   );

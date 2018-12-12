@@ -9,7 +9,7 @@ const auth = (req, res, next) => {
 
   jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(400).send(err);
     }
     User.findOne({ _id: decode, token: token }, (err, user) => {
       if (err) {
