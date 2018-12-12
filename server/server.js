@@ -140,4 +140,24 @@ app.get('/api/users/auth', auth, (req, res) => {
   });
 });
 
+// @route   GET /api/users/logout
+// @desc    Logs user out
+// @access  Private
+app.get('/api/users/logout', auth, (req, res) => {
+  User.findOneAndUpdate(
+    {
+      _id: req.user._id
+    },
+    { token: '' },
+    (err, doc) => {
+      if (err) {
+        return res.status(500).json({ logoutSuccess: false, err });
+      }
+      return res.status(200).send({
+        logoutSuccess: true
+      });
+    }
+  );
+});
+
 app.listen(port, () => console.log(`Express server running on port ${port}`));
