@@ -20,6 +20,7 @@ mongoose.set('useCreateIndex', true);
 // ====================
 //   Mongoose Models
 // ====================
+const { BodyType } = require('./models/bodyType');
 const { Brand } = require('./models/brand');
 const { User } = require('./models/user');
 
@@ -47,13 +48,14 @@ app.get('/', (req, res) => res.send('Hello World!'));
 // @route   POST /api/product/brand
 // @desc    Add new brand
 // @access  Private
-app.post('/api/product/brand', auth, (req, res) => {
+app.post('/api/product/brand', auth, admin, (req, res) => {
   const brand = new Brand(req.body);
 
   brand.save((err, doc) => {
     if (err) {
       return res.status(400).json({ success: false, err });
     }
+
     res.status(200).json({
       success: true,
       brand: doc
@@ -71,6 +73,37 @@ app.get('/api/product/brands', (req, res) => {
     }
 
     res.status(200).send(brands);
+  });
+});
+
+// @route   POST /api/product/body-type
+// @desc    Add new body-type
+// @access  Private
+app.post('/api/product/body-type', auth, admin, (req, res) => {
+  const bodyType = new BodyType(req.body);
+
+  bodyType.save((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    res.status(200).json({
+      success: true,
+      bodyType: doc
+    });
+  });
+});
+
+// @route   GET /api/product/body-types
+// @desc    Fetch list of body types
+// @access  Public
+app.get('/api/product/body-types', (req, res) => {
+  BodyType.find({}, (err, bodyTypes) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    res.status(200).send(bodyTypes);
   });
 });
 
