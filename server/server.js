@@ -31,6 +31,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+const { auth } = require('./middleware/auth');
+
 // ====================
 //   Routes
 // ====================
@@ -44,7 +46,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 //   User Routes
 // ====================
 
-// @route   POST /
+// @route   POST /api/users/register
 // @desc    Register new user
 // @access  Public
 app.post('/api/users/register', (req, res) => {
@@ -75,7 +77,7 @@ app.post('/api/users/register', (req, res) => {
   });
 });
 
-// @route   POST /
+// @route   POST /api/users/login
 // @desc    Login user
 // @access  Public
 app.post('/api/users/login', (req, res) => {
@@ -119,6 +121,22 @@ app.post('/api/users/login', (req, res) => {
           });
       });
     });
+  });
+});
+
+// @route   GET /api/users/auth
+// @desc    Auth route
+// @access  Private
+app.get('/api/users/auth', auth, (req, res) => {
+  res.status(200).json({
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    role: req.user.history,
+    cart: req.user.cart,
+    history: req.user.history
   });
 });
 
