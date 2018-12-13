@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "serve": "nodemon server/server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run serve\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Zack Jackson",
