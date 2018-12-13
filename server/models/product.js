@@ -44,9 +44,9 @@ const productSchema = mongoose.Schema(
       ref: 'Wood',
       required: true
     },
-    pickups: {
+    pickup: {
       type: Schema.Types.ObjectId,
-      ref: 'Pickups',
+      ref: 'Pickup',
       required: true
     },
     frets: {

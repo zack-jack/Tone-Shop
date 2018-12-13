@@ -22,7 +22,7 @@ mongoose.set('useCreateIndex', true);
 // ====================
 const { BodyType } = require('./models/bodyType');
 const { Brand } = require('./models/brand');
-const { Pickups } = require('./models/pickups');
+const { Pickup } = require('./models/pickup');
 const { Product } = require('./models/product');
 const { User } = require('./models/user');
 const { Wood } = require('./models/wood');
@@ -110,8 +110,70 @@ app.get('/api/product/body-types', (req, res) => {
   });
 });
 
+// @route   POST /api/product/pickup
+// @desc    Add new pickup
+// @access  Private
+app.post('/api/product/pickup', auth, admin, (req, res) => {
+  const pickup = new Pickup(req.body);
+
+  pickup.save((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    res.status(200).json({
+      success: true,
+      pickup: doc
+    });
+  });
+});
+
+// @route   GET /api/product/pickups
+// @desc    Fetch list of pickups
+// @access  Public
+app.get('/api/product/pickups', (req, res) => {
+  Pickup.find({}, (err, pickups) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    res.status(200).send(pickups);
+  });
+});
+
+// @route   POST /api/product/wood
+// @desc    Add new wood
+// @access  Private
+app.post('/api/product/wood', auth, admin, (req, res) => {
+  const wood = new Wood(req.body);
+
+  wood.save((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    res.status(200).json({
+      success: true,
+      wood: doc
+    });
+  });
+});
+
+// @route   GET /api/product/woods
+// @desc    Fetch list of woods
+// @access  Public
+app.get('/api/product/woods', (req, res) => {
+  Wood.find({}, (err, woods) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    res.status(200).send(woods);
+  });
+});
+
 // @route   POST /api/product/item
-// @desc    Add new product
+// @desc    Add new product item
 // @access  Private
 app.post('/api/product/item', auth, admin, (req, res) => {
   const product = new Product(req.body);
@@ -126,6 +188,46 @@ app.post('/api/product/item', auth, admin, (req, res) => {
       item: doc
     });
   });
+});
+
+// @route   GET /api/product/items
+// @desc    Fetch list of items
+// @access  Public
+app.get('/api/product/items', (req, res) => {
+  Product.find({}, (err, items) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    res.status(200).send(items);
+  });
+});
+
+// @route   GET /api/product/items_by_id
+// @desc    Fetch items by id
+// @access  Public
+app.get('/api/product/items_by_id', (req, res) => {
+  const type = req.query.type;
+
+  if (type === 'array') {
+    const ids = req.query.id.split(',');
+    items = [];
+    items = ids.map(item => {
+      return mongoose.Types.ObjectId(item);
+    });
+  }
+
+  Product.find({
+    _id: { $in: items }
+  })
+    .populate('brand type wood pickup')
+    .exec((err, docs) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+
+      return res.status(200).send(docs);
+    });
 });
 
 // ====================

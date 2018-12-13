@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const pickupsSchema = mongoose.Schema({
-  style: {
+const pickupSchema = mongoose.Schema({
+  name: {
     type: String,
     required: true,
     maxLength: 50
@@ -12,6 +12,6 @@ const pickupsSchema = mongoose.Schema({
   }
 });
 
-const Pickups = mongoose.model('Pickups', pickupsSchema);
+const Pickup = mongoose.model('Pickup', pickupSchema);
 
-module.exports = { Pickups };
+module.exports = { Pickup };
