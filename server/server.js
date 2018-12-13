@@ -48,6 +48,10 @@ const { auth } = require('./middleware/auth');
 // @access  Public
 app.get('/', (req, res) => res.send('Hello World!'));
 
+// ====================
+//   Product Routes
+// ====================
+
 // @route   POST /api/product/brand
 // @desc    Add new brand
 // @access  Private
@@ -190,22 +194,10 @@ app.post('/api/product/item', auth, admin, (req, res) => {
   });
 });
 
-// @route   GET /api/product/items
-// @desc    Fetch list of items
-// @access  Public
-app.get('/api/product/items', (req, res) => {
-  Product.find({}, (err, items) => {
-    if (err) {
-      return res.status(400).send(err);
-    }
-
-    res.status(200).send(items);
-  });
-});
-
-// @route   GET /api/product/items_by_id
-// @desc    Fetch items by id
-// @access  Public
+// @route    GET /api/product/items_by_id
+// @desc     Fetch items by id
+// @example  /api/product/items_by_id?id=idhere&type=array
+// @access   Public
 app.get('/api/product/items_by_id', (req, res) => {
   const type = req.query.type;
 
@@ -227,6 +219,29 @@ app.get('/api/product/items_by_id', (req, res) => {
       }
 
       return res.status(200).send(docs);
+    });
+});
+
+// @route    GET /api/product/items
+// @desc     Fetch items by query string
+// @example  /api/product/items?sortBy=sold&order=desc&limit=4
+// @example  /api/product/items?sortBy=createdAt&order=desc&limit=4
+// @access   Public
+app.get('/api/product/items', (req, res) => {
+  const sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+  const order = req.query.order ? req.query.order : 'asc';
+  const limit = req.query.limit ? parseInt(req.query.limit) : 8;
+
+  Product.find()
+    .populate('brand type wood pickup')
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, items) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+
+      res.status(200).send(items);
     });
 });
 
