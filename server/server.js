@@ -22,7 +22,10 @@ mongoose.set('useCreateIndex', true);
 // ====================
 const { BodyType } = require('./models/bodyType');
 const { Brand } = require('./models/brand');
+const { Pickups } = require('./models/pickups');
+const { Product } = require('./models/product');
 const { User } = require('./models/user');
+const { Wood } = require('./models/wood');
 
 // ====================
 //   Middleware
@@ -104,6 +107,24 @@ app.get('/api/product/body-types', (req, res) => {
     }
 
     res.status(200).send(bodyTypes);
+  });
+});
+
+// @route   POST /api/product/item
+// @desc    Add new product
+// @access  Private
+app.post('/api/product/item', auth, admin, (req, res) => {
+  const product = new Product(req.body);
+
+  product.save((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    res.status(200).json({
+      success: true,
+      item: doc
+    });
   });
 });
 
