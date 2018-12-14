@@ -1,17 +1,19 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+
+import Login from './Login';
+import Register from './Register';
 
 const RegisterLogin = () => {
   return (
     <div>
       <div>
         <div>Register</div>
-        <Button variant="contained">Register</Button>
+        <Register />
       </div>
 
       <div>
         <div>Login</div>
-        <Button variant="contained">Login</Button>
+        <Login />
       </div>
     </div>
   );

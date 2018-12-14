@@ -31,10 +31,10 @@ router.post('/register', (req, res) => {
 
       user.save((err, doc) => {
         if (err) {
-          return res.status(400).json({ success: false, err });
+          return res.status(400).json({ registerSuccess: false, err });
         }
         res.status(200).json({
-          success: true,
+          registerSuccess: true,
           userData: doc
         });
       });
@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
     if (!user) {
       return (
         res.json({
-          success: false,
+          loginSuccess: false,
           message: 'Login failed. User not found.'
         }),
         res.status(404)
@@ -67,7 +67,7 @@ router.post('/login', (req, res) => {
       if (!isMatch) {
         return (
           res.json({
-            success: false,
+            loginSuccess: false,
             message: 'Login failed. Password incorrect.'
           }),
           res.status(403)
@@ -86,7 +86,7 @@ router.post('/login', (req, res) => {
           .cookie('xAuth', user.token)
           .status(200)
           .json({
-            success: true
+            loginSuccess: true
           });
       });
     });
@@ -108,10 +108,10 @@ router.get('/logout', auth, (req, res) => {
     { token: '' },
     (err, doc) => {
       if (err) {
-        return res.status(400).json({ success: false, err });
+        return res.status(400).json({ logoutSuccess: false, err });
       }
       return res.status(200).send({
-        success: true
+        logoutSuccess: true
       });
     }
   );
