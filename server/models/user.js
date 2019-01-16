@@ -1,45 +1,72 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const userSchema = mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: 1
-  },
-  password: {
-    type: String,
-    required: true,
-    minLength: 5
-  },
+const Schema = mongoose.Schema;
+const model = mongoose.model;
+
+// Define user model
+const userSchema = new Schema({
   firstName: {
     type: String,
-    required: true,
-    maxLength: 50
+    required: true
   },
   lastName: {
     type: String,
-    required: true,
-    maxLength: 50
+    required: true
+  },
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
   },
   cart: {
     type: Array,
     default: []
   },
-  history: {
+  purchaseHistory: {
     type: Array,
     default: []
   },
-  role: {
-    type: Number,
-    default: 0
-  },
-  token: {
-    type: String,
-    default: ''
+  isAdmin: {
+    type: Boolean,
+    default: false
   }
 });
 
-const User = mongoose.model('User', userSchema);
+// Encrypt password with bcrypt before saving
+userSchema.pre('save', function(next) {
+  const user = this;
 
-module.exports = { User };
+  // Generate salt
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+
+    // Hash password using the salt
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+
+      // Replace plain text password with hashed password
+      user.password = hash;
+
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) return callback(err);
+
+    callback(null, isMatch);
+  });
+};
+
+// Model class
+const User = model('User', userSchema);
+
+module.exports = User;
