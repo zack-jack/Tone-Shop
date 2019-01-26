@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const model = mongoose.model;
 
 // Define body type model
-const bodyTypeSchema = Schema({
+const bodySchema = Schema({
   name: {
     type: String,
     required: true,
@@ -13,6 +13,6 @@ const bodyTypeSchema = Schema({
   }
 });
 
-const BodyType = model('BodyType', bodyTypeSchema);
+const Body = model('Body', bodySchema);
 
-module.exports = { BodyType };
+module.exports = Body;

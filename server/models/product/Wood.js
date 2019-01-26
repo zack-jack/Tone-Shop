@@ -24,4 +24,4 @@ const woodSchema = Schema({
 
 const Wood = model('Wood', woodSchema);
 
-module.exports = { Wood };
+module.exports = Wood;

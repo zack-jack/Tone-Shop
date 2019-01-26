@@ -37,9 +37,9 @@ const productSchema = new Schema(
       type: Boolean,
       required: true
     },
-    type: {
+    body: {
       type: Schema.Types.ObjectId,
-      ref: 'BodyType',
+      ref: 'Body',
       required: true
     },
     wood: {
@@ -47,7 +47,7 @@ const productSchema = new Schema(
       ref: 'Wood',
       required: true
     },
-    pickup: {
+    pickups: {
       type: Schema.Types.ObjectId,
       ref: 'Pickup',
       required: true
@@ -74,4 +74,4 @@ const productSchema = new Schema(
 
 const Product = model('Product', productSchema);
 
-module.exports = { Product };
+module.exports = Product;

@@ -89,7 +89,7 @@ exports.register = (req, res, next) => {
 
 // Login route handling
 exports.login = (req, res, next) => {
-  // User already authenticated by requireLogin middleware
+  // User already authenticated by routes authenticate middleware
   // Give user an auth token
   res.send({ token: tokenForUser(req.user) });
 };

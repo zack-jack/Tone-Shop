@@ -5,7 +5,7 @@ const model = mongoose.model;
 
 // Define pickup model
 const pickupSchema = Schema({
-  name: {
+  type: {
     type: String,
     required: true,
     maxLength: 50
@@ -18,4 +18,4 @@ const pickupSchema = Schema({
 
 const Pickup = model('Pickup', pickupSchema);
 
-module.exports = { Pickup };
+module.exports = Pickup;

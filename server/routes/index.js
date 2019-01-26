@@ -1,10 +1,8 @@
 const express = require('express');
-const passport = require('passport');
 
 const router = express.Router();
 
-// Authentication middleware
-const requireAuth = passport.authenticate('jwt', { session: false });
+const requireAuth = require('../middleware/requireAuth');
 
 // Welcome
 router.get('/', (req, res) => {
