@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Body = require('../models/product/Body');
 const Brand = require('../models/product/Brand');
 const Pickup = require('../models/product/Pickup');
@@ -116,20 +118,69 @@ exports.addProduct = (req, res, next) => {
   });
 };
 
-// Fetch all existing products from the database
-exports.fetchAllProducts = (req, res, next) => {
-  // Search database for products and get everything
-  Product.find({}, (err, products) => {
-    if (err) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error fetching products from database',
-        err
-      });
-    }
+// Fetch all existing products from the database or by query string
+exports.fetchProducts = (req, res, next) => {
+  const query = req.query;
 
-    res.status(200).json({ success: true, products });
-  });
+  // Check if request path has a query string
+  if (Object.keys(query).length !== 0) {
+    const sortBy = query.sortBy;
+    const order = query.order ? query.order : 'desc';
+    const limit = query.limit ? parseInt(query.limit) : 10;
+
+    // Search database for the products that match query string
+    Product.find()
+      .populate('brand')
+      .populate('body')
+      .populate('wood')
+      .populate('pickups')
+      .sort([[sortBy, order]])
+      .limit(limit)
+      .exec((err, products) => {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            message: 'Error fetching products from database',
+            err
+          });
+        }
+
+        res.status(200).json({ success: true, products });
+      });
+  } else {
+    // Search database for products and get everything
+    Product.find({}, (err, products) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error fetching products from database',
+          err
+        });
+      }
+
+      res.status(200).json({ success: true, products });
+    });
+  }
+};
+
+// Fetch product by id
+exports.fetchProductById = (req, res, next) => {
+  let items = [];
+
+  // Check if multiple ids in path
+  if (req.params.id.includes(',')) {
+    const itemIds = req.params.id.split(',');
+
+    // Convert ids to mongoose object ids
+    items = itemIds.map(item => mongoose.Types.ObjectId(item));
+
+    console.log(itemIds, items);
+  } else {
+    const itemId = req.params.id;
+    const item = mongoose.Types.ObjectId(itemId);
+  }
+
+  Product.find({ _id: { $in: items } });
 };
 
 // Add new wood type route handling

@@ -31,7 +31,10 @@ router.get('/pickups', product.fetchAllPickupTypes);
 router.post('/item', requireAuth, requireAdmin, product.addProduct);
 
 // Get all products from database
-router.get('/items', product.fetchAllProducts);
+router.get('/items', product.fetchProducts);
+
+// Get item by id
+router.get('/item/:id', product.fetchProductById);
 
 // Add new wood type to products
 router.post('/wood', requireAuth, requireAdmin, product.addWoodType);
