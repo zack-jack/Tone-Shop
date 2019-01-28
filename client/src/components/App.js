@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 
-const App = ({ children }) => (
-  <>
-    <Header />
-    {children}
-    <Footer />
-  </>
-);
+class App extends Component {
+  render() {
+    return (
+      <>
+        <Header />
+        {this.props.children}
+        <Footer />
+      </>
+    );
+  }
+}
 
 export default App;

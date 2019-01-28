@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Semantic UI styles
@@ -10,18 +11,23 @@ import App from './components/App';
 import Landing from './components/Landing';
 import SignUp from './components/auth/SignUp';
 import SignIn from './components/auth/SignIn';
+import Loading from './components/common/Loading';
+import Account from './components/account/Account';
 
-import { store } from './store/configureStore';
+import { store, persistor } from './store/configureStore';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App>
-        <Route path="/" exact component={Landing} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" render={() => <SignIn />} />
-      </App>
-    </Router>
+    <PersistGate loading={<Loading />} persistor={persistor}>
+      <Router>
+        <App>
+          <Route path="/" exact render={() => <Landing />} />
+          <Route path="/signup" render={() => <SignUp />} />
+          <Route path="/signin" render={() => <SignIn />} />
+          <Route path="/account" render={() => <Account />} />
+        </App>
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );

@@ -1,6 +1,7 @@
 import { AUTH_USER, AUTH_ERROR } from '../actions/types';
 
 const INITIAL_STATE = {
+  authenticated: false,
   authToken: '',
   errors: []
 };
@@ -10,7 +11,8 @@ export default (state = INITIAL_STATE, action) => {
     case AUTH_USER:
       return {
         ...state,
-        authToken: action.payload
+        authenticated: action.payload.authenticated,
+        authToken: action.payload.token
       };
     case AUTH_ERROR:
       return {

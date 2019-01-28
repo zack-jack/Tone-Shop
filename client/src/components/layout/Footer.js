@@ -35,16 +35,16 @@ const Footer = () => (
             <Header as="h4" content="Connect with us" />
             <Grid.Row>
               <List link>
-                <List.Item as="a">
+                <List.Item as="a" href="//facebook.com" target="_blank">
                   <Icon name="facebook f" size="large" />
                 </List.Item>
-                <List.Item as="a">
+                <List.Item as="a" href="//twitter.com" target="_blank">
                   <Icon name="twitter" size="large" />
                 </List.Item>
-                <List.Item as="a">
+                <List.Item as="a" href="//instagram.com" target="_blank">
                   <Icon name="instagram" size="large" />
                 </List.Item>
-                <List.Item as="a">
+                <List.Item as="a" href="//youtube.com" target="_blank">
                   <Icon name="youtube" size="large" />
                 </List.Item>
               </List>

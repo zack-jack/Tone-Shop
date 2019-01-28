@@ -21,9 +21,11 @@ export const signIn = (formData, callback) => async dispatch => {
     if (errors.length === 0) {
       // Assign token to the user
       const token = response.data.token;
+      const authenticated = token === '' || token === null ? false : true;
+      const payload = { authenticated, token };
 
       // Dispatch to redux to update authenticated with the token
-      dispatch({ type: AUTH_USER, payload: token });
+      dispatch({ type: AUTH_USER, payload: payload });
 
       // Save the token to localStorage
       localStorage.setItem('token', token);
@@ -44,11 +46,15 @@ export const signUp = (formData, callback) => async dispatch => {
     const response = await axios.post('/user/register', formData);
 
     if (response.status === 200) {
+      const token = response.data.token;
+      const authenticated = token === '' || token === null ? false : true;
+      const payload = { authenticated, token };
+
       // Dispatch auth token to redux store
-      dispatch({ type: AUTH_USER, payload: response.data.token });
+      dispatch({ type: AUTH_USER, payload });
 
       // Save token to localStorage
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', token);
 
       // Execute the callback function
       callback();
@@ -67,8 +73,10 @@ export const signUp = (formData, callback) => async dispatch => {
 };
 
 export const signOut = () => dispatch => {
+  const payload = { authenticated: false, token: '' };
+
   // Clear auth token from redux store
-  dispatch({ type: AUTH_USER, payload: '' });
+  dispatch({ type: AUTH_USER, payload: payload });
 
   // Remove token from localStorage
   localStorage.removeItem('token');
