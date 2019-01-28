@@ -42,7 +42,7 @@ exports.register = (req, res, next) => {
 
   if (errors.length > 0) {
     validData = false;
-    res.status(422).json({
+    res.status(400).json({
       errors
     });
   }
@@ -56,7 +56,7 @@ exports.register = (req, res, next) => {
         if (existingUser) {
           errors.push({ message: 'Email is already registered' });
 
-          res.status(422).json({
+          res.status(400).json({
             errors,
             existingUser
           });
@@ -75,11 +75,8 @@ exports.register = (req, res, next) => {
         newUser
           .save()
           .then(user => {
-            const userData = user._doc;
             // Respond that the user was created
-            res
-              .status(200)
-              .json({ user: { ...userData, token: tokenForUser(user) } });
+            res.status(200).json({ token: tokenForUser(user) });
           })
           .catch(err => console.log(err));
       })

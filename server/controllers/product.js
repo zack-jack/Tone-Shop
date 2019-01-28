@@ -14,7 +14,7 @@ exports.addBodyType = (req, res, next) => {
   body.save((err, body) => {
     if (err) {
       return res
-        .status(422)
+        .status(400)
         .json({ success: false, message: 'Error saving new body type', err });
     }
 
@@ -46,7 +46,7 @@ exports.addBrand = (req, res, next) => {
   brand.save((err, brand) => {
     if (err) {
       return res
-        .status(422)
+        .status(400)
         .json({ success: false, message: 'Error saving new brand', err });
     }
 
@@ -78,7 +78,7 @@ exports.addPickupType = (req, res, next) => {
   pickup.save((err, pickup) => {
     if (err) {
       return res
-        .status(422)
+        .status(400)
         .json({ success: false, message: 'Error saving new pickup', err });
     }
 
@@ -110,7 +110,7 @@ exports.addProduct = (req, res, next) => {
   product.save((err, product) => {
     if (err) {
       return res
-        .status(422)
+        .status(400)
         .json({ success: false, message: 'Error saving new product', err });
     }
 
@@ -191,7 +191,7 @@ exports.addWoodType = (req, res, next) => {
   wood.save((err, wood) => {
     if (err) {
       return res
-        .status(422)
+        .status(400)
         .json({ success: false, message: 'Error saving new wood type', err });
     }
 
