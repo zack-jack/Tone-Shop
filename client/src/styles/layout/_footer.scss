@@ -1,0 +1,15 @@
+.footer {
+  &__social {
+    align-items: center;
+    display: flex;
+  }
+
+  &__social-link {
+    margin-right: 1rem;
+  }
+
+  &__copyright {
+    margin-top: 4rem;
+    padding: 2rem 0;
+  }
+}

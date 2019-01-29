@@ -1,60 +1,87 @@
 import React from 'react';
 import { Container, Grid, Header, List, Icon } from 'semantic-ui-react';
 
+const lists = [
+  {
+    name: 'shop',
+    header: 'Shop',
+    links: ['All Guitars', 'Best Sellers', 'Newest Arrivals', 'Brands']
+  },
+  {
+    name: 'explore',
+    header: 'Explore',
+    links: ['About Us', 'Contact Info', 'FAQ']
+  },
+  {
+    name: 'account',
+    header: 'Account',
+    links: ['My Account', 'Track an Order', 'Returns']
+  },
+  {
+    name: 'social',
+    header: 'Connect with us',
+    links: [
+      {
+        name: 'facebook',
+        icon: 'facebook f',
+        linkTo: '//facebook.com'
+      },
+      {
+        name: 'twitter',
+        icon: 'twitter',
+        linkTo: '//twitter.com'
+      },
+      {
+        name: 'instagram',
+        icon: 'instagram',
+        linkTo: '//instagram.com'
+      },
+      {
+        name: 'youtube',
+        icon: 'youtube',
+        linkTo: '//youtube.com'
+      }
+    ]
+  }
+];
+
+const renderLists = lists =>
+  lists.map(list => (
+    <Grid.Column width={list.name === 'social' ? 7 : 3}>
+      <Header as="h4" content={list.header} />
+      <List link className={list.name === 'social' ? 'footer__social' : null}>
+        {list.links.map(link =>
+          list.name === 'social' ? (
+            <List.Item
+              key={link.name}
+              as="a"
+              href={link.linkTo}
+              target="_blank"
+              className="footer__social-link"
+            >
+              <Icon name={link.icon} size="large" />
+            </List.Item>
+          ) : (
+            <List.Item key={link} as="a">
+              {link}
+            </List.Item>
+          )
+        )}
+      </List>
+    </Grid.Column>
+  ));
+
 const Footer = () => (
   <>
     <Container>
       <Grid stackable>
-        <Grid.Row>
-          <Grid.Column width={3}>
-            <Header as="h4" content="Shop" />
-            <List link>
-              <List.Item as="a">All Guitars</List.Item>
-              <List.Item as="a">Best Sellers</List.Item>
-              <List.Item as="a">Newest Items</List.Item>
-              <List.Item as="a">Brands</List.Item>
-            </List>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Header as="h4" content="Explore" />
-            <List link>
-              <List.Item as="a">About Us</List.Item>
-              <List.Item as="a">Contact Info</List.Item>
-              <List.Item as="a">FAQ</List.Item>
-            </List>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Header as="h4" content="Account" />
-            <List link>
-              <List.Item as="a">My Account</List.Item>
-              <List.Item as="a">Track an Order</List.Item>
-              <List.Item as="a">Returns</List.Item>
-            </List>
-          </Grid.Column>
-          <Grid.Column width={7}>
-            <Header as="h4" content="Connect with us" />
-            <Grid.Row>
-              <List link>
-                <List.Item as="a" href="//facebook.com" target="_blank">
-                  <Icon name="facebook f" size="large" />
-                </List.Item>
-                <List.Item as="a" href="//twitter.com" target="_blank">
-                  <Icon name="twitter" size="large" />
-                </List.Item>
-                <List.Item as="a" href="//instagram.com" target="_blank">
-                  <Icon name="instagram" size="large" />
-                </List.Item>
-                <List.Item as="a" href="//youtube.com" target="_blank">
-                  <Icon name="youtube" size="large" />
-                </List.Item>
-              </List>
-            </Grid.Row>
-          </Grid.Column>
-        </Grid.Row>
+        <Grid.Row>{renderLists(lists)}</Grid.Row>
       </Grid>
     </Container>
 
-    <Container>&copy; {new Date().getFullYear()} | Tone Shop</Container>
+    <Container className="footer__copyright">
+      &copy; {new Date().getFullYear()} | Tone Shop
+    </Container>
   </>
 );
 

@@ -1,6 +1,11 @@
 .slider {
+  color: red !important;
   overflow: hidden;
   position: relative;
+
+  &:focus {
+    outline: none;
+  }
 
   &__image {
     background-position: center left !important;

@@ -8,33 +8,35 @@ const LandingSlider = () => {
       img: '/images/landing/Landing-Slide-Players.jpg',
       heading: 'Just announced at NAMM',
       subheading: 'New Fender American Performer Line',
-      buttonText: 'Shop Now',
+      buttonText: 'Shop Fender',
       linkTo: ''
     },
     {
       img: '/images/landing/Landing-Slide-Silver-Sky.jpg',
       heading: 'John Mayer - Silver Sky',
       subheading: 'Brand new colors for 2019',
-      buttonText: 'Shop Now',
+      buttonText: 'Shop PRS',
       linkTo: ''
     },
     {
       img: '/images/landing/Landing-Slide-Black-Falcon.jpg',
       heading: 'Modern appointments. Classic Vibe.',
       subheading: 'Gretsch G6136T Players Edition Black Falcon',
-      buttonText: 'Shop Now',
+      buttonText: 'Shop Gretsch',
       linkTo: ''
     }
   ];
 
   // React Slick Slider settings
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 5500
   };
 
   const renderSlider = slides => {
