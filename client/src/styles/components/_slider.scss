@@ -1,0 +1,38 @@
+.slider {
+  overflow: hidden;
+  position: relative;
+
+  &__image {
+    background-position: center left !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    height: 520px;
+    margin: 0 auto;
+    width: 1440px;
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    &--1 {
+      left: 25%;
+      top: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--2 {
+      left: 50%;
+      top: 20%;
+      transform: translateX(-50%);
+    }
+
+    &--3 {
+      right: 4%;
+      top: 57%;
+      transform: translateX(-50%);
+    }
+  }
+}

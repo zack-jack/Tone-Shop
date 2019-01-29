@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Menu, Input } from 'semantic-ui-react';
+import { Menu, Input, Icon } from 'semantic-ui-react';
 
 import { signOut } from '../../actions/auth';
 
@@ -68,7 +68,14 @@ class Header extends Component {
           name={formattedItem}
           onClick={this.handleNavItemClick}
         >
-          {item}
+          {item === 'Cart' ? (
+            <span>
+              <Icon name="cart" />
+              {item}
+            </span>
+          ) : (
+            item
+          )}
         </Menu.Item>
       );
     });

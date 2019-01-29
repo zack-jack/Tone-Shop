@@ -2,13 +2,24 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Container, Grid, Header, Table, Button, Tab } from 'semantic-ui-react';
+import { Container, Grid, Header, Table, Button } from 'semantic-ui-react';
 
 import requireAuth from '../auth/requireAuth';
 import { signOut } from '../../actions/auth';
+import { setCurrentUser } from '../../actions/user';
 
 class Account extends Component {
+  state = {
+    user: this.props.user
+  };
+
+  componentDidMount() {
+    this.props.setCurrentUser();
+  }
+
   render() {
+    const { firstName, lastName, email } = this.state.user;
+
     return (
       <Container>
         <Grid>
@@ -22,19 +33,31 @@ class Account extends Component {
             <Grid.Column width={3}>
               <Grid.Row>
                 <Header as="h3" dividing>
-                  User Name
+                  {`${firstName} ${lastName}`}
                 </Header>
               </Grid.Row>
 
               <Grid.Row>
                 <Header as="h4">Email Address</Header>
-                User's Email Address
+                {email}
               </Grid.Row>
 
-              <Grid.Row>
-                <Header as="h4">Primary Mailing Address</Header>
-                User's Mailing Address
-              </Grid.Row>
+              {this.state.user.address ? (
+                <Grid.Row>
+                  <Header as="h4">Primary Mailing Address</Header>
+                  {this.state.user.address}
+                </Grid.Row>
+              ) : null}
+
+              <Button
+                compact
+                size="small"
+                onClick={() => this.props.history.push('/edit/account')}
+              >
+                {this.state.user.address
+                  ? 'Edit Account'
+                  : 'Add Mailing Address'}
+              </Button>
 
               <Button
                 compact
@@ -82,10 +105,16 @@ class Account extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.user.data
+  };
+};
+
 export default compose(
   connect(
-    null,
-    { signOut }
+    mapStateToProps,
+    { signOut, setCurrentUser }
   ),
   withRouter,
   requireAuth

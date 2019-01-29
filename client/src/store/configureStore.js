@@ -11,7 +11,6 @@ const INITIAL_STATE = {};
 // Redux persist configuration
 const persistConfig = {
   key: 'root',
-  whitelist: ['auth'],
   storage
 };
 

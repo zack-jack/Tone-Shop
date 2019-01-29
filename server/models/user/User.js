@@ -24,17 +24,13 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  cart: {
-    type: Array,
-    default: []
-  },
-  purchaseHistory: {
-    type: Array,
-    default: []
-  },
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  address: {
+    type: Schema.Types.ObjectId,
+    ref: 'Address'
   }
 });
 
