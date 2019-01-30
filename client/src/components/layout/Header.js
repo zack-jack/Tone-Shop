@@ -70,7 +70,7 @@ class Header extends Component {
         >
           {item === 'Cart' ? (
             <span>
-              <Icon name="cart" />
+              <Icon name="cart" style={{ marginRight: '0.75rem' }} />
               {item}
             </span>
           ) : (
@@ -83,14 +83,19 @@ class Header extends Component {
 
   render() {
     return (
-      <Menu secondary>
-        <Menu.Item as="a" name="logo" onClick={this.handleLogoClick}>
-          Tone Shop
-        </Menu.Item>
-        <Menu.Item>
-          <Input icon="search" placeholder="Search..." />
-        </Menu.Item>
-        {this.renderNavItems()}
+      <Menu secondary className="user-header">
+        <div className="header__logo">
+          <Menu.Item as="a" name="logo" onClick={this.handleLogoClick}>
+            Tone Shop
+          </Menu.Item>
+        </div>
+
+        <div className="user-header__links">
+          <Menu.Item>
+            <Input icon="search" placeholder="Search..." />
+          </Menu.Item>
+          {this.renderNavItems()}
+        </div>
       </Menu>
     );
   }

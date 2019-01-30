@@ -59,7 +59,7 @@ const renderLists = lists =>
               target="_blank"
               className="footer__social-link"
             >
-              <Icon name={link.icon} size="large" />
+              <Icon name={link.icon} size="big" />
             </List.Item>
           ) : (
             <List.Item key={link} as="a">
@@ -73,7 +73,7 @@ const renderLists = lists =>
 
 const Footer = () => (
   <>
-    <Container>
+    <Container className="footer__nav">
       <Grid stackable>
         <Grid.Row>{renderLists(lists)}</Grid.Row>
       </Grid>

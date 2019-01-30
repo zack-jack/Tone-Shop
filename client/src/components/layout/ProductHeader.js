@@ -3,7 +3,13 @@ import { Menu, Dropdown } from 'semantic-ui-react';
 
 const ProductHeader = () => {
   return (
-    <Menu attached="top" borderless color="red" inverted>
+    <Menu
+      attached="top"
+      borderless
+      color="red"
+      inverted
+      className="product-header"
+    >
       <Menu.Item as="a">New Arrivals</Menu.Item>
       <Menu.Item as="a">Best Sellers</Menu.Item>
 

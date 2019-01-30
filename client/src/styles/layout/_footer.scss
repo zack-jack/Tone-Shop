@@ -1,4 +1,8 @@
 .footer {
+  &__nav {
+    padding: 4rem 0;
+  }
+
   &__social {
     align-items: center;
     display: flex;
@@ -6,10 +10,13 @@
 
   &__social-link {
     margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   &__copyright {
-    margin-top: 4rem;
-    padding: 2rem 0;
+    padding: 4rem 0;
   }
 }

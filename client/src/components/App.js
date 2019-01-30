@@ -8,8 +8,10 @@ class App extends Component {
   render() {
     return (
       <>
-        <Header />
-        <ProductHeader />
+        <div className="header">
+          <Header />
+          <ProductHeader className="product-header" />
+        </div>
         {this.props.children}
         <Footer />
       </>
