@@ -84,11 +84,7 @@ class Header extends Component {
   render() {
     return (
       <Menu secondary className="user-header">
-        <div className="header__logo">
-          <Menu.Item as="a" name="logo" onClick={this.handleLogoClick}>
-            Tone Shop
-          </Menu.Item>
-        </div>
+        <div className="header__logo">Tone Shop</div>
 
         <div className="user-header__links">
           <Menu.Item>

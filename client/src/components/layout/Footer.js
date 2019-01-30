@@ -47,42 +47,46 @@ const lists = [
 
 const renderLists = lists =>
   lists.map(list => (
-    <Grid.Column width={list.name === 'social' ? 7 : 3}>
-      <Header as="h4" content={list.header} />
-      <List link className={list.name === 'social' ? 'footer__social' : null}>
-        {list.links.map(link =>
-          list.name === 'social' ? (
-            <List.Item
-              key={link.name}
-              as="a"
-              href={link.linkTo}
-              target="_blank"
-              className="footer__social-link"
-            >
-              <Icon name={link.icon} size="big" />
-            </List.Item>
-          ) : (
-            <List.Item key={link} as="a">
-              {link}
-            </List.Item>
-          )
-        )}
-      </List>
+    <Grid.Column key={list.name} width={list.name === 'social' ? 7 : 3}>
+      <div
+        className={list.name === 'social' ? 'footer__social-container' : null}
+      >
+        <Header as="h4" content={list.header} />
+        <List link className={list.name === 'social' ? 'footer__social' : null}>
+          {list.links.map(link =>
+            list.name === 'social' ? (
+              <List.Item
+                key={link.name}
+                as="a"
+                href={link.linkTo}
+                target="_blank"
+                className="footer__social-link"
+              >
+                <Icon name={link.icon} size="big" />
+              </List.Item>
+            ) : (
+              <List.Item key={link} as="a">
+                {link}
+              </List.Item>
+            )
+          )}
+        </List>
+      </div>
     </Grid.Column>
   ));
 
 const Footer = () => (
-  <>
-    <Container className="footer__nav">
+  <Container fluid className="footer">
+    <Container fluid className="footer__nav">
       <Grid stackable>
         <Grid.Row>{renderLists(lists)}</Grid.Row>
       </Grid>
     </Container>
 
-    <Container className="footer__copyright">
+    <Container fluid className="footer__copyright">
       &copy; {new Date().getFullYear()} | Tone Shop
     </Container>
-  </>
+  </Container>
 );
 
 export default Footer;

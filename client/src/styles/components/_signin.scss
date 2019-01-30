@@ -1,0 +1,23 @@
+.signin {
+  padding: 8rem 0 16rem 0;
+
+  &__heading {
+    text-align: left;
+    width: 100%;
+  }
+
+  &__action {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__signup-arrow-link {
+    margin-left: 1rem;
+  }
+
+  &__no-account {
+    display: flex;
+    flex-direction: column;
+  }
+}

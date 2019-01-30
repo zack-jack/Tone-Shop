@@ -13,7 +13,13 @@ const ProductHeader = () => {
       <Menu.Item as="a">New Arrivals</Menu.Item>
       <Menu.Item as="a">Best Sellers</Menu.Item>
 
-      <Dropdown item simple icon={null} text="Shop Guitars">
+      <Dropdown
+        item
+        simple
+        icon={null}
+        text="Shop Guitars"
+        className="product-header__dropdown"
+      >
         <Dropdown.Menu>
           <Dropdown.Item>Item 1</Dropdown.Item>
           <Dropdown.Item>Item 2</Dropdown.Item>
@@ -22,7 +28,13 @@ const ProductHeader = () => {
         </Dropdown.Menu>
       </Dropdown>
 
-      <Dropdown item simple icon={null} text="Shop Brands">
+      <Dropdown
+        item
+        simple
+        icon={null}
+        text="Shop Brands"
+        className="product-header__dropdown"
+      >
         <Dropdown.Menu>
           <Dropdown.Item>Item 1</Dropdown.Item>
           <Dropdown.Item>Item 2</Dropdown.Item>

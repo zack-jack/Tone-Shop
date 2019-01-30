@@ -2,7 +2,15 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Grid, Form, Header, Message, Icon, Button } from 'semantic-ui-react';
+import {
+  Container,
+  Grid,
+  Form,
+  Header,
+  Message,
+  Icon,
+  Button
+} from 'semantic-ui-react';
 
 import { signIn, clearAuthErrors } from '../../actions/auth';
 import { setCurrentUser } from '../../actions/user';
@@ -81,62 +89,79 @@ class SignIn extends Component {
     const { email, password, errors, isSubmitting } = this.state;
 
     return (
-      <>
-        <Header as="h2">
-          <Icon name="user outline" />
-          Sign In or Create an Account
-        </Header>
+      <Container className="signin">
+        <Grid padded>
+          <Grid.Row columns={1} className="signin__heading">
+            <Header as="h2" style={{ marginBottom: '4rem' }}>
+              <Icon name="user outline" />
+              Sign In or Create an Account
+            </Header>
+          </Grid.Row>
 
-        <Grid columns={2} padded>
-          <Grid.Column style={{ maxWidth: 600 }}>
-            <Form size="large" onSubmit={this.handleSubmit}>
-              <Form.Input
-                fluid
-                name="email"
-                type="email"
-                label="Email Address"
-                value={email}
-                onChange={this.handleChange}
-              />
+          <Grid.Row columns={2}>
+            <Grid.Column style={{ maxWidth: 600 }}>
+              <Form size="large" onSubmit={this.handleSubmit}>
+                <Form.Input
+                  fluid
+                  name="email"
+                  type="email"
+                  label="Email Address"
+                  value={email}
+                  onChange={this.handleChange}
+                />
 
-              <Form.Input
-                fluid
-                name="password"
-                type="password"
-                label="Password"
-                value={password}
-                onChange={this.handleChange}
-              />
+                <Form.Input
+                  fluid
+                  name="password"
+                  type="password"
+                  label="Password"
+                  value={password}
+                  onChange={this.handleChange}
+                />
 
-              <Button
-                className={isSubmitting ? 'loading' : ''}
-                color="red"
-                disabled={isSubmitting}
-                size="large"
-              >
-                Sign In
-              </Button>
+                <div className="signin__action">
+                  <Button
+                    className={isSubmitting ? 'loading' : ''}
+                    color="red"
+                    disabled={isSubmitting}
+                    size="large"
+                  >
+                    Sign In
+                  </Button>
 
-              <span>New Customer?</span>
-              <Link to="/signup">Sign up →</Link>
-            </Form>
+                  <div>
+                    New Customer?
+                    <Link
+                      to="/signup"
+                      className="link signin__signup-arrow-link"
+                    >
+                      <Button basic>Sign up →</Button>
+                    </Link>
+                  </div>
+                </div>
+              </Form>
 
-            {errors.length > 0 && (
-              <Message error content={this.renderErrors(errors)} />
-            )}
-          </Grid.Column>
+              {errors.length > 0 && (
+                <Message error content={this.renderErrors(errors)} />
+              )}
+            </Grid.Column>
 
-          <Grid.Column>
-            <Header as="h3">No Account Yet?</Header>
+            <Grid.Column
+              textAlign="center"
+              style={{ maxWidth: 600 }}
+              className="signin__no-account"
+            >
+              <Header as="h3">No Account Yet?</Header>
 
-            <Link to="/signup">
-              <Button color="red" size="large">
-                Sign Up Here!
-              </Button>
-            </Link>
-          </Grid.Column>
+              <Link to="/signup">
+                <Button color="red" size="large">
+                  Sign Up Here!
+                </Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
-      </>
+      </Container>
     );
   }
 }

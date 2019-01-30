@@ -2,6 +2,7 @@
   margin-bottom: 6rem;
 
   &__logo {
+    padding-left: 1.25rem;
     width: 100%;
   }
 }
@@ -20,5 +21,9 @@
 }
 
 .product-header {
-  padding: 0.5rem calc((100vw - 1440px) / 2);
+  padding: 0 calc((100vw - 1440px) / 2);
+
+  &__dropdown {
+    height: 4rem;
+  }
 }

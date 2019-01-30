@@ -1,0 +1,18 @@
+.account {
+  min-height: 45vh;
+
+  &__user-name {
+    margin-bottom: 1rem;
+  }
+
+  &__user-email {
+    margin-bottom: 2rem;
+  }
+
+  &__actions {
+  }
+
+  &__edit-button {
+    margin-bottom: 1rem !important;
+  }
+}

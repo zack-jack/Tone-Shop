@@ -1,5 +1,4 @@
 .slider {
-  color: red !important;
   overflow: hidden;
   position: relative;
 
@@ -23,8 +22,8 @@
     position: absolute;
 
     &--1 {
-      left: 25%;
-      top: 50%;
+      left: calc(((100vw - 1440px) / 2) + 16rem);
+      top: 18rem;
       transform: translateX(-50%);
     }
 
@@ -35,8 +34,8 @@
     }
 
     &--3 {
-      right: 4%;
-      top: 50%;
+      right: calc(((100vw - 1440px) / 2) - 13rem);
+      top: 19rem;
       transform: translateX(-50%);
     }
   }

@@ -4,10 +4,13 @@
 
 /* LAYOUT STYLES
 ========================================== */
+@import './layout/account';
 @import './layout/header';
 @import './layout/landing';
 @import './layout/footer';
 
 /* COMPONENT STYLES
 ========================================== */
+@import './components/signin';
+@import './components/signup';
 @import './components/slider';

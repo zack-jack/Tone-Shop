@@ -2,7 +2,15 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Grid, Form, Header, Message, Icon, Button } from 'semantic-ui-react';
+import {
+  Container,
+  Grid,
+  Form,
+  Header,
+  Message,
+  Icon,
+  Button
+} from 'semantic-ui-react';
 
 import { signUp, clearAuthErrors } from '../../actions/auth';
 import { setCurrentUser } from '../../actions/user';
@@ -101,7 +109,7 @@ class SignUp extends Component {
     } = this.state;
 
     return (
-      <>
+      <Container className="signup">
         <Header as="h2">
           <Icon name="user outline" />
           Create an Account
@@ -155,17 +163,23 @@ class SignUp extends Component {
                 onChange={this.handleChange}
               />
 
-              <Button
-                className={isSubmitting ? 'loading' : ''}
-                color="red"
-                disabled={isSubmitting}
-                size="large"
-              >
-                Sign Up
-              </Button>
+              <div className="signup__action">
+                <Button
+                  className={isSubmitting ? 'loading' : ''}
+                  color="red"
+                  disabled={isSubmitting}
+                  size="large"
+                >
+                  Sign Up
+                </Button>
 
-              <span>Already Have an Account?</span>
-              <Link to="/signin">Sign in →</Link>
+                <div>
+                  Already Have an Account?
+                  <Link to="/signin" className="link signup__signin-arrow-link">
+                    <Button basic>Sign in →</Button>
+                  </Link>
+                </div>
+              </div>
             </Form>
 
             {errors.length > 0 && (
@@ -173,7 +187,7 @@ class SignUp extends Component {
             )}
           </Grid.Column>
         </Grid>
-      </>
+      </Container>
     );
   }
 }

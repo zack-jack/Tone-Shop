@@ -4,3 +4,7 @@ export const AUTH_ERROR = 'auth_error';
 
 // User
 export const SET_CURRENT_USER = 'set_current_user';
+
+// Product
+export const GET_BEST_SELLERS = 'get_best_sellers';
+export const GET_NEW_ARRIVALS = 'get_new_arrivals';

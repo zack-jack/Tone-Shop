@@ -1,15 +1,28 @@
 .landing {
   &__promo {
+    margin: 10rem 0 4rem 0;
+  }
+
+  &__promo,
+  &__banner {
     align-items: center;
     background: #f6f6f8;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 8rem 0 6rem 0;
     padding: 2rem 0;
   }
 
   &__benefits-text {
     margin-left: 1rem;
+  }
+
+  &__featured {
+    padding: 4rem 0;
+  }
+
+  &__best-sellers,
+  &__new-arrivals {
+    margin: 4rem 0;
   }
 }

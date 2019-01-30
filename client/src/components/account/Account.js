@@ -21,7 +21,7 @@ class Account extends Component {
     const { firstName, lastName, email } = this.state.user;
 
     return (
-      <Container>
+      <Container className="account">
         <Grid>
           <Grid.Row>
             <Grid.Column>
@@ -31,13 +31,13 @@ class Account extends Component {
 
           <Grid.Row>
             <Grid.Column width={3}>
-              <Grid.Row>
+              <Grid.Row className="account__user-name">
                 <Header as="h3" dividing>
                   {`${firstName} ${lastName}`}
                 </Header>
               </Grid.Row>
 
-              <Grid.Row>
+              <Grid.Row className="account__user-email">
                 <Header as="h4">Email Address</Header>
                 {email}
               </Grid.Row>
@@ -49,24 +49,28 @@ class Account extends Component {
                 </Grid.Row>
               ) : null}
 
-              <Button
-                compact
-                size="small"
-                onClick={() => this.props.history.push('/edit/account')}
-              >
-                {this.state.user.address
-                  ? 'Edit Account'
-                  : 'Add Mailing Address'}
-              </Button>
+              <div className="account__actions">
+                <Button
+                  basic
+                  compact
+                  size="small"
+                  className="account__edit-button"
+                  onClick={() => this.props.history.push('/edit/account')}
+                >
+                  {this.state.user.address
+                    ? 'Edit Account'
+                    : 'Add Mailing Address'}
+                </Button>
 
-              <Button
-                compact
-                color="red"
-                size="small"
-                onClick={this.props.signOut}
-              >
-                Sign Out
-              </Button>
+                <Button
+                  compact
+                  color="red"
+                  size="small"
+                  onClick={this.props.signOut}
+                >
+                  Sign Out
+                </Button>
+              </div>
             </Grid.Column>
 
             <Grid.Column width={13}>

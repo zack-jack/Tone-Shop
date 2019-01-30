@@ -1,0 +1,13 @@
+.signup {
+  padding: 4rem 0 8rem 0;
+
+  &__action {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__signin-arrow-link {
+    margin-left: 1rem;
+  }
+}
