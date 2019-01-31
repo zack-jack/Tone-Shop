@@ -60,7 +60,8 @@ class BrowseProducts extends Component {
       <Container fluid className="browse">
         <Header as="h5">Browse Products</Header>
         <Grid columns={2}>
-          <Grid.Column width={4}>
+          <Grid.Column width={4} className="filters__container">
+            <p>Filter by:</p>
             <Filters />
           </Grid.Column>
 
@@ -70,7 +71,7 @@ class BrowseProducts extends Component {
             <PaginationMenu
               numItems={this.state.products.length}
               itemsPerPage={this.state.itemsPerPage}
-              handlePageChange={this.handlePageChange.bind(this)}
+              handlePageChange={this.handlePageChange}
             />
           </Grid.Column>
         </Grid>

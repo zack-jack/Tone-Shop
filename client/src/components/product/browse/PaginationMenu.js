@@ -10,7 +10,7 @@ class PaginationMenu extends Component {
   onPageChange = e => {
     e.preventDefault();
 
-    const targetPageNum = parseInt(e.target.innerText);
+    const targetPageNum = parseInt(e.target.getAttribute('value'));
 
     this.props.handlePageChange(targetPageNum);
   };
@@ -29,6 +29,7 @@ class PaginationMenu extends Component {
         siblingRange={1}
         totalPages={Math.ceil(this.state.numItems / this.state.itemsPerPage)}
         onPageChange={this.onPageChange}
+        className="pagination"
       />
     );
   }

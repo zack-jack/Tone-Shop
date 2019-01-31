@@ -12,7 +12,9 @@
 
 /* COMPONENT STYLES
 ========================================== */
+@import './components/filters';
 @import './components/not-found';
+@import './components/pagination';
 @import './components/signin';
 @import './components/signup';
 @import './components/slider';

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import { Menu, Dropdown } from 'semantic-ui-react';
 
 class ProductHeader extends Component {
@@ -19,8 +18,8 @@ class ProductHeader extends Component {
         <Menu.Item as="a">New Arrivals</Menu.Item>
         <Menu.Item as="a">Best Sellers</Menu.Item>
 
-        <Menu.Item as="a">
-          <Link to="/browse">All Guitars</Link>
+        <Menu.Item as="a" onClick={() => this.props.history.push('/browse')}>
+          Browse Guitars
         </Menu.Item>
 
         <Dropdown
@@ -58,4 +57,4 @@ class ProductHeader extends Component {
   }
 }
 
-export default withRouter(ProductHeader);
+export default ProductHeader;
