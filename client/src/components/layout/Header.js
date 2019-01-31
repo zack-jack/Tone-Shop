@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Menu, Input, Icon } from 'semantic-ui-react';
 
 import { signOut } from '../../actions/auth';
@@ -84,7 +84,10 @@ class Header extends Component {
   render() {
     return (
       <Menu secondary className="user-header">
-        <div className="header__logo">Tone Shop</div>
+        <Link to="/" className="header__logo">
+          Tone
+          <Icon name="headphones" className="header__logo-icon" /> Shop
+        </Link>
 
         <div className="user-header__links">
           <Menu.Item>

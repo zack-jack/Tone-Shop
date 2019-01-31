@@ -13,12 +13,18 @@ class BestSellers extends Component {
   }
 
   renderProductCards = ({ bestSellers }) =>
-    bestSellers.map(product => <ProductCard product={product} />);
+    bestSellers.map(product => (
+      <ProductCard key={product._id} product={product} />
+    ));
 
   render() {
     return (
       <Container className="landing__best-sellers">
-        <Header as="h2" textAlign="center">
+        <Header
+          as="h2"
+          textAlign="center"
+          className="landing__best-sellers-heading"
+        >
           Best Sellers
         </Header>
         <Card.Group centered>

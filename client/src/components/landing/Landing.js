@@ -18,10 +18,10 @@ class Landing extends Component {
 
   componentDidMount() {
     // Fetch top 3 best selling products
-    this.props.getBestSellers();
+    this.props.getBestSellers(3);
 
     // Fetch top 3 newest items
-    this.props.getNewArrivals();
+    this.props.getNewArrivals(3);
   }
 
   componentWillReceiveProps(nextProps) {

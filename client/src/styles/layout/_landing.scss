@@ -1,6 +1,6 @@
 .landing {
   &__promo {
-    margin: 10rem 0 4rem 0;
+    margin: 10rem 0 8rem 0;
   }
 
   &__promo,
@@ -24,5 +24,10 @@
   &__best-sellers,
   &__new-arrivals {
     margin: 4rem 0;
+  }
+
+  &__best-sellers-heading,
+  &__new-arrivals-heading {
+    margin-bottom: 3rem !important;
   }
 }

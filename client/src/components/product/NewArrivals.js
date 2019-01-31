@@ -13,12 +13,18 @@ class NewArrivals extends Component {
   }
 
   renderProductCards = ({ newArrivals }) =>
-    newArrivals.map(product => <ProductCard product={product} />);
+    newArrivals.map(product => (
+      <ProductCard key={product._id} product={product} />
+    ));
 
   render() {
     return (
       <Container className="landing__new-arrivals">
-        <Header as="h2" textAlign="center">
+        <Header
+          as="h2"
+          textAlign="center"
+          className="landing__new-arrivals-heading"
+        >
           New Arrivals
         </Header>
         <Card.Group centered>

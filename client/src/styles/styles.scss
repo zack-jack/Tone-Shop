@@ -5,12 +5,14 @@
 /* LAYOUT STYLES
 ========================================== */
 @import './layout/account';
+@import './layout/browse';
 @import './layout/header';
 @import './layout/landing';
 @import './layout/footer';
 
 /* COMPONENT STYLES
 ========================================== */
+@import './components/not-found';
 @import './components/signin';
 @import './components/signup';
 @import './components/slider';
