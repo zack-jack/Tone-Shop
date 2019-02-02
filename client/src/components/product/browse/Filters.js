@@ -5,7 +5,7 @@ import FilterCategory from './FilterCategory';
 
 class Filters extends Component {
   state = {
-    activeIndex: 0,
+    activeIndices: [],
     categories: [
       {
         title: 'Body Type',
@@ -31,17 +31,28 @@ class Filters extends Component {
   };
 
   handleCategoryClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+    const exists = this.state.activeIndices.some(active => {
+      return active === titleProps.index;
+    });
 
-    this.setState({ activeIndex: newIndex });
+    if (!exists) {
+      this.setState({
+        activeIndices: this.state.activeIndices.concat(titleProps.index)
+      });
+    } else {
+      // Category was clicked while already open, so set to inactive
+      const newActiveIndices = this.state.activeIndices.filter(
+        active => active !== titleProps.index
+      );
+
+      this.setState({ activeIndices: newActiveIndices });
+    }
   };
 
   renderCategories = categories =>
     categories.map((category, i) => (
       <FilterCategory
-        active={this.state.activeIndex === i}
+        active={this.state.activeIndices.some(active => active === i)}
         content={category.title}
         index={i}
         key={category.title}

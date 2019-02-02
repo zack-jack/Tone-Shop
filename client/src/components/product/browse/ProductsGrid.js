@@ -13,9 +13,10 @@ class ProductsGrid extends Component {
   }
 
   renderProducts = products =>
-    products.length === 0 ? (
+    products && products.length === 0 ? (
       <p>No results found.</p>
     ) : (
+      products &&
       products.map(product => (
         <ProductCard key={product._id} product={product} />
       ))

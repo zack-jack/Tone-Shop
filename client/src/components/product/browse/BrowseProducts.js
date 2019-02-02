@@ -28,7 +28,7 @@ class BrowseProducts extends Component {
     initialGrid: [],
     productsGrid: [],
     checked: [],
-    filteredProducts: []
+    filteredProducts: undefined
   };
 
   componentDidMount() {
@@ -40,26 +40,17 @@ class BrowseProducts extends Component {
   }
 
   componentDidUpdate() {
-    this.updateFilteredProducts();
+    if (
+      this.state.filteredProducts === undefined ||
+      this.state.filteredProducts.length !== 0
+    ) {
+      this.updateFilteredProducts();
+    }
 
     // Wait for filtered products state to update
     setTimeout(() => {
       this.updateDisplayGrid();
-    }, 300);
-
-    // Check if all of the objects in checked state are falsey
-    const containsOnlyFalsey = this.state.checked.every(
-      item => Object.values(item)[0] === false
-    );
-
-    if (
-      this.state.checked.length > 0 &&
-      containsOnlyFalsey &&
-      this.state.productsGrid !== this.state.initialGrid
-    ) {
-      // No filters checked, so go back to initial grid
-      this.setInitialGrid();
-    }
+    }, 100);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,11 +72,18 @@ class BrowseProducts extends Component {
   };
 
   setInitialGrid = () => {
+    // Define indices to split
+    const startIndex =
+      this.state.currentPage === 1
+        ? 0
+        : (this.state.currentPage - 1) * this.state.itemsPerPage;
+    const endIndex =
+      this.state.currentPage === 1
+        ? this.state.currentPage * this.state.itemsPerPage
+        : this.state.currentPage * this.state.itemsPerPage;
+
     // Split products into initial items to display
-    const productsGrid = this.state.allProducts.slice(
-      0,
-      this.state.itemsPerPage
-    );
+    const productsGrid = this.state.allProducts.slice(startIndex, endIndex);
 
     this.setState({ productsGrid });
     this.setState({ initialGrid: productsGrid });
@@ -246,11 +244,7 @@ class BrowseProducts extends Component {
       filterBy.brands.some(brandFilter => brandFilter._id === product.brand)
     );
 
-    const filteredByPrice = products.filter(product => {
-      filterBy.prices.some(price => {
-        return price.__id === product.__id;
-      });
-    });
+    const filteredByPrice = filterBy.prices;
 
     const filtered = [
       filteredByBody,
@@ -282,53 +276,116 @@ class BrowseProducts extends Component {
   updateFilteredProducts = () => {
     const newFilteredProducts = this.filterProducts(this.state.allProducts);
 
-    // Normalize the arrays of objects to strings of product ids for comparison
-    const stateFilterMap =
-      this.state.filteredProducts &&
-      this.state.filteredProducts.length > 0 &&
-      this.state.filteredProducts.map(product => product._id).join(',');
+    if (newFilteredProducts && newFilteredProducts.length === 0) {
+      this.setState({ filteredProducts: [] });
+    } else {
+      // Normalize the arrays of objects to strings of product ids for comparison
+      const stateFilterMap =
+        this.state.filteredProducts &&
+        this.state.filteredProducts.length > 0 &&
+        this.state.filteredProducts.map(product => product._id).join(',');
 
-    const newFilterMap =
-      newFilteredProducts &&
-      newFilteredProducts.length > 0 &&
-      newFilteredProducts.map(product => product._id).join(',');
+      const newFilterMap =
+        newFilteredProducts &&
+        newFilteredProducts.length > 0 &&
+        newFilteredProducts.map(product => product._id).join(',');
 
-    // Check if state is lagging the checked filters
-    if (stateFilterMap !== newFilterMap) {
-      // Update state if necessary
-      this.setState({
-        filteredProducts: newFilteredProducts
-      });
+      // Check if state is lagging the checked filters
+      if (stateFilterMap !== newFilterMap) {
+        // Update state if necessary
+        this.setState({
+          filteredProducts: newFilteredProducts
+        });
+      }
     }
   };
 
   updateDisplayGrid = () => {
     const newFilteredProducts = this.filterProducts(this.state.allProducts);
 
-    // Normalize the arrays of objects to strings of product ids for comparison
-    const stateGridMap =
-      this.state.productsGrid &&
-      this.state.productsGrid.length > 0 &&
-      this.state.productsGrid.map(product => product._id).join(',');
+    // Define indices to split
+    const startIndex =
+      this.state.currentPage === 1
+        ? 0
+        : (this.state.currentPage - 1) * this.state.itemsPerPage;
+    const endIndex =
+      this.state.currentPage === 1
+        ? this.state.currentPage * this.state.itemsPerPage
+        : this.state.currentPage * this.state.itemsPerPage;
 
+    // Normalize the arrays of objects to strings of product ids for comparison
     const newFilterMap =
       newFilteredProducts &&
       newFilteredProducts.length > 0 &&
       newFilteredProducts.map(product => product._id).join(',');
 
-    // Check that the displayed products grid items differ from the filtered products list
+    const newProductsGrid = this.state.allProducts.slice(startIndex, endIndex);
+
+    const newProductsGridMap =
+      newProductsGrid &&
+      newProductsGrid.length > 0 &&
+      newProductsGrid.map(product => product._id).join(',');
+
     if (
-      stateGridMap !== newFilterMap &&
+      newFilteredProducts === undefined &&
+      this.state.productsGrid.map(product => product._id).join(',') !==
+        newProductsGridMap
+    ) {
+      this.setState({
+        productsGrid: newProductsGrid
+      });
+    } else if (
+      // Check that the displayed products grid items differ from the filtered products list
+      this.state.productsGrid.map(product => product._id).join(',') !==
+        newFilterMap &&
       this.state.filteredProducts &&
       this.state.filteredProducts.length > 0
     ) {
       const filteredGrid = this.state.filteredProducts.slice(
-        0,
-        this.state.itemsPerPage
+        startIndex,
+        endIndex
       );
 
       // Update state grid to display with the filtered items only
-      this.setState({ productsGrid: filteredGrid });
+      this.setState({
+        filteredProducts: newFilteredProducts,
+        productsGrid: filteredGrid
+      });
+    }
+
+    if (
+      this.state.productsGrid.map(product => product._id).join(',') !==
+        newFilterMap &&
+      this.state.filteredProducts &&
+      this.state.filteredProducts.length === 0
+    ) {
+      const resetGrid = newFilteredProducts.slice(startIndex, endIndex);
+
+      this.setState({
+        filteredProducts: newFilteredProducts,
+        productsGrid: resetGrid
+      });
+    }
+  };
+
+  getNumItems = () => {
+    if (
+      this.state.checked &&
+      this.state.checked.some(item => Object.values(item)[0]) &&
+      this.state.productsGrid &&
+      this.state.productsGrid.length === 0
+    ) {
+      return 0;
+    } else if (
+      this.state.checked &&
+      this.state.checked.length > 0 &&
+      this.state.checked.some(item => Object.values(item)[0]) &&
+      this.state.filteredProducts &&
+      this.state.filteredProducts.length > 0
+    ) {
+      return this.state.filteredProducts.length;
+    } else {
+      return this.state.allProducts.length;
     }
   };
 
@@ -346,12 +403,7 @@ class BrowseProducts extends Component {
             <ProductsGrid products={this.state.productsGrid} />
             <Divider hidden />
             <PaginationMenu
-              numItems={
-                this.state.filteredProducts &&
-                this.state.filteredProducts.length > 0
-                  ? this.state.filteredProducts.length
-                  : this.state.allProducts.length
-              }
+              numItems={this.getNumItems()}
               itemsPerPage={this.state.itemsPerPage}
               handlePageChange={this.handlePageChange}
             />

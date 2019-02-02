@@ -7,6 +7,18 @@ class PaginationMenu extends Component {
     itemsPerPage: this.props.itemsPerPage
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.numItems !== this.state.numItems ||
+      nextProps.itemsPerPage !== this.state.itemsPerPage
+    ) {
+      this.setState({
+        numItems: nextProps.numItems,
+        itemsPerPage: nextProps.itemsPerPage
+      });
+    }
+  }
+
   onPageChange = e => {
     e.preventDefault();
 
@@ -16,7 +28,7 @@ class PaginationMenu extends Component {
   };
 
   render() {
-    return (
+    return this.state.numItems > 0 ? (
       <Pagination
         pointing
         secondary
@@ -31,7 +43,7 @@ class PaginationMenu extends Component {
         onPageChange={this.onPageChange}
         className="pagination"
       />
-    );
+    ) : null;
   }
 }
 
