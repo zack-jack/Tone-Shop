@@ -25,6 +25,7 @@ class BrowseProducts extends Component {
     pickups: this.props.products.pickups,
     itemsPerPage: 9,
     currentPage: 1,
+    initialGrid: [],
     productsGrid: [],
     checked: [],
     filteredProducts: []
@@ -34,35 +35,30 @@ class BrowseProducts extends Component {
     // Get products, brands, body types, woods, and pickups from db and dispatch to redux
     this.fetchProductInfo();
 
-    // Split products into initial items to display
-    const productsGrid = this.state.allProducts.slice(
-      0,
-      this.state.itemsPerPage
-    );
-
-    this.setState({ productsGrid });
+    // Set initial grid of products to display
+    this.setInitialGrid();
   }
 
   componentDidUpdate() {
-    const newFilteredProducts = this.filterProducts(this.state.allProducts);
+    this.updateFilteredProducts();
 
-    // Normalize the arrays of objects to strings for comparison
-    const stateFilterMap =
-      this.state.filteredProducts &&
-      this.state.filteredProducts.length > 0 &&
-      this.state.filteredProducts.map(product => product._id).join(',');
+    // Wait for filtered products state to update
+    setTimeout(() => {
+      this.updateDisplayGrid();
+    }, 300);
 
-    const newFilterMap =
-      newFilteredProducts &&
-      newFilteredProducts.length > 0 &&
-      newFilteredProducts.map(product => product._id).join(',');
+    // Check if all of the objects in checked state are falsey
+    const containsOnlyFalsey = this.state.checked.every(
+      item => Object.values(item)[0] === false
+    );
 
-    // Check if state is lagging the checked filters
-    if (stateFilterMap !== newFilterMap) {
-      // Update state if necessary
-      this.setState({
-        filteredProducts: newFilteredProducts
-      });
+    if (
+      this.state.checked.length > 0 &&
+      containsOnlyFalsey &&
+      this.state.productsGrid !== this.state.initialGrid
+    ) {
+      // No filters checked, so go back to initial grid
+      this.setInitialGrid();
     }
   }
 
@@ -84,6 +80,17 @@ class BrowseProducts extends Component {
     this.props.getPickupTypes();
   };
 
+  setInitialGrid = () => {
+    // Split products into initial items to display
+    const productsGrid = this.state.allProducts.slice(
+      0,
+      this.state.itemsPerPage
+    );
+
+    this.setState({ productsGrid });
+    this.setState({ initialGrid: productsGrid });
+  };
+
   handlePageChange = targetPageNum => {
     this.setState({ currentPage: targetPageNum });
 
@@ -95,8 +102,16 @@ class BrowseProducts extends Component {
         ? targetPageNum * this.state.itemsPerPage
         : targetPageNum * this.state.itemsPerPage;
 
+    let productsGrid;
+
     // Split the group of products by number of items to display per page
-    const productsGrid = this.state.allProducts.slice(startIndex, endIndex);
+    // If there are filters applied, use filtered products
+    if (this.state.filteredProducts && this.state.filteredProducts.length > 0) {
+      productsGrid = this.state.allProducts.slice(startIndex, endIndex);
+    } else {
+      // Otherwise use all products
+      productsGrid = this.state.allProducts.slice(startIndex, endIndex);
+    }
 
     // Set state with new grouped array
     this.setState({ productsGrid });
@@ -264,6 +279,59 @@ class BrowseProducts extends Component {
     return filteredProducts;
   };
 
+  updateFilteredProducts = () => {
+    const newFilteredProducts = this.filterProducts(this.state.allProducts);
+
+    // Normalize the arrays of objects to strings of product ids for comparison
+    const stateFilterMap =
+      this.state.filteredProducts &&
+      this.state.filteredProducts.length > 0 &&
+      this.state.filteredProducts.map(product => product._id).join(',');
+
+    const newFilterMap =
+      newFilteredProducts &&
+      newFilteredProducts.length > 0 &&
+      newFilteredProducts.map(product => product._id).join(',');
+
+    // Check if state is lagging the checked filters
+    if (stateFilterMap !== newFilterMap) {
+      // Update state if necessary
+      this.setState({
+        filteredProducts: newFilteredProducts
+      });
+    }
+  };
+
+  updateDisplayGrid = () => {
+    const newFilteredProducts = this.filterProducts(this.state.allProducts);
+
+    // Normalize the arrays of objects to strings of product ids for comparison
+    const stateGridMap =
+      this.state.productsGrid &&
+      this.state.productsGrid.length > 0 &&
+      this.state.productsGrid.map(product => product._id).join(',');
+
+    const newFilterMap =
+      newFilteredProducts &&
+      newFilteredProducts.length > 0 &&
+      newFilteredProducts.map(product => product._id).join(',');
+
+    // Check that the displayed products grid items differ from the filtered products list
+    if (
+      stateGridMap !== newFilterMap &&
+      this.state.filteredProducts &&
+      this.state.filteredProducts.length > 0
+    ) {
+      const filteredGrid = this.state.filteredProducts.slice(
+        0,
+        this.state.itemsPerPage
+      );
+
+      // Update state grid to display with the filtered items only
+      this.setState({ productsGrid: filteredGrid });
+    }
+  };
+
   render() {
     return (
       <Container fluid className="browse">
@@ -278,7 +346,12 @@ class BrowseProducts extends Component {
             <ProductsGrid products={this.state.productsGrid} />
             <Divider hidden />
             <PaginationMenu
-              numItems={this.state.allProducts.length}
+              numItems={
+                this.state.filteredProducts &&
+                this.state.filteredProducts.length > 0
+                  ? this.state.filteredProducts.length
+                  : this.state.allProducts.length
+              }
               itemsPerPage={this.state.itemsPerPage}
               handlePageChange={this.handlePageChange}
             />
