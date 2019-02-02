@@ -1,21 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Grid, Header, List, Icon } from 'semantic-ui-react';
 
 const lists = [
   {
     name: 'shop',
     header: 'Shop',
-    links: ['All Guitars', 'Best Sellers', 'Newest Arrivals', 'Brands']
+    links: [
+      { name: 'All Guitars', linkTo: 'browse' },
+      { name: 'Best Sellers', linkTo: 'browse' },
+      { name: 'Newest Arrivals', linkTo: 'browse' },
+      { name: 'Brands', linkTo: 'browse' }
+    ]
   },
   {
     name: 'explore',
     header: 'Explore',
-    links: ['About Us', 'Contact Info', 'FAQ']
+    links: [
+      { name: 'About Us', linkTo: 'about' },
+      { name: 'Contact Info', linkTo: 'contact' },
+      { name: 'FAQ', linkTo: 'faq' }
+    ]
   },
   {
     name: 'account',
     header: 'Account',
-    links: ['My Account', 'Track an Order', 'Returns']
+    links: [
+      { name: 'My Account', linkTo: 'account' },
+      { name: 'Track an Order', linkTo: 'orders' },
+      { name: 'Returns', linkTo: 'returns' }
+    ]
   },
   {
     name: 'social',
@@ -65,8 +79,8 @@ const renderLists = lists =>
                 <Icon name={link.icon} size="big" />
               </List.Item>
             ) : (
-              <List.Item key={link} as="a">
-                {link}
+              <List.Item key={link.name}>
+                <Link to={`/${link.linkTo}`}>{link.name}</Link>
               </List.Item>
             )
           )}

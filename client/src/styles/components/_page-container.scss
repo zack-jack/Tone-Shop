@@ -1,0 +1,10 @@
+.page-container {
+  min-height: 35vh;
+  padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+  padding-bottom: 2rem;
+
+  & > p {
+    max-width: 75%;
+    line-height: 2;
+  }
+}

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Container, Grid, Header, Table, Button } from 'semantic-ui-react';
+import { Container, Grid, Header, Button } from 'semantic-ui-react';
 
 import requireAuth from '../auth/requireAuth';
 import { signOut } from '../../actions/auth';
 import { setCurrentUser } from '../../actions/user';
+import OrderHistoryTable from './OrderHistoryTable';
 
 class Account extends Component {
   state = {
@@ -78,28 +79,7 @@ class Account extends Component {
                 <Header as="h3" dividing>
                   Order History
                 </Header>
-
-                <Table celled fixed singleLine>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>Order</Table.HeaderCell>
-                      <Table.HeaderCell>Date</Table.HeaderCell>
-                      <Table.HeaderCell>Payment Status</Table.HeaderCell>
-                      <Table.HeaderCell>Fulfillment Status</Table.HeaderCell>
-                      <Table.HeaderCell>Total</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>#10097171</Table.Cell>
-                      <Table.Cell>October 26, 2018</Table.Cell>
-                      <Table.Cell>Paid</Table.Cell>
-                      <Table.Cell>Fulfilled</Table.Cell>
-                      <Table.Cell>$1,282.94</Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
+                <OrderHistoryTable />
               </Grid.Row>
             </Grid.Column>
           </Grid.Row>

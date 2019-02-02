@@ -18,6 +18,11 @@ import Loading from './components/common/Loading';
 import Account from './components/account/Account';
 import EditAccount from './components/account/EditAccount';
 import BrowseProducts from './components/product/browse/BrowseProducts';
+import About from './components/explore/About';
+import Contact from './components/explore/Contact';
+import FAQ from './components/explore/FAQ';
+import Orders from './components/account/Orders';
+import Returns from './components/account/Returns';
 import NotFound from './components/common/NotFound';
 
 import { store, persistor } from './store/configureStore';
@@ -32,8 +37,14 @@ ReactDOM.render(
             <Route path="/signup" render={() => <SignUp />} />
             <Route path="/signin" render={() => <SignIn />} />
             <Route path="/account" render={() => <Account />} />
+            <Route path="/orders" render={() => <Orders />} />
+            <Route path="/returns" render={() => <Returns />} />
             <Route path="/edit/account" render={() => <EditAccount />} />
             <Route path="/browse" render={() => <BrowseProducts />} />
+            <Route path="/about" render={() => <About />} />
+            <Route path="/contact" render={() => <Contact />} />
+            <Route path="/faq" render={() => <FAQ />} />
+
             <Route component={NotFound} />
           </Switch>
         </App>
