@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Menu, Dropdown } from 'semantic-ui-react';
 
 class ProductHeader extends Component {
+  state = {
+    brands: this.props.products.brands,
+    categories: this.props.products.bodies
+  };
+
   handleDropdownClick = () => {
     this.props.history.push('/browse');
   };
+
+  renderCategories = categories =>
+    categories.map(category => (
+      <Dropdown.Item key={category._id}>{category.name}</Dropdown.Item>
+    ));
+
+  renderBrands = brands =>
+    brands.map(brand => (
+      <Dropdown.Item key={brand._id}>{brand.name}</Dropdown.Item>
+    ));
 
   render() {
     return (
@@ -31,10 +49,7 @@ class ProductHeader extends Component {
           className="product-header__dropdown"
         >
           <Dropdown.Menu>
-            <Dropdown.Item>Item 1</Dropdown.Item>
-            <Dropdown.Item>Item 2</Dropdown.Item>
-            <Dropdown.Item>Item 3</Dropdown.Item>
-            <Dropdown.Item>Item 4</Dropdown.Item>
+            {this.renderCategories(this.state.categories)}
           </Dropdown.Menu>
         </Dropdown>
 
@@ -45,16 +60,23 @@ class ProductHeader extends Component {
           text="Brands"
           className="product-header__dropdown"
         >
-          <Dropdown.Menu>
-            <Dropdown.Item>Item 1</Dropdown.Item>
-            <Dropdown.Item>Item 2</Dropdown.Item>
-            <Dropdown.Item>Item 3</Dropdown.Item>
-            <Dropdown.Item>Item 4</Dropdown.Item>
-          </Dropdown.Menu>
+          <Dropdown.Menu>{this.renderBrands(this.state.brands)}</Dropdown.Menu>
         </Dropdown>
       </Menu>
     );
   }
 }
 
-export default ProductHeader;
+const mapStateToProps = state => {
+  return {
+    products: state.products
+  };
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    null
+  ),
+  withRouter
+)(ProductHeader);

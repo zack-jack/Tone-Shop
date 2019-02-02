@@ -1,11 +1,19 @@
 import {
+  GET_ALL_PRODUCTS,
+  GET_BRANDS,
+  GET_BODY_TYPES,
+  GET_WOOD_TYPES,
+  GET_PICKUP_TYPES,
   GET_BEST_SELLERS,
-  GET_NEW_ARRIVALS,
-  GET_ALL_PRODUCTS
+  GET_NEW_ARRIVALS
 } from '../actions/types';
 
 const INITIAL_STATE = {
   allProducts: [],
+  brands: [],
+  bodies: [],
+  woods: [],
+  pickups: [],
   bestSellers: [],
   newArrivals: []
 };
@@ -16,6 +24,26 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         allProducts: action.payload
+      };
+    case GET_BRANDS:
+      return {
+        ...state,
+        brands: action.payload
+      };
+    case GET_BODY_TYPES:
+      return {
+        ...state,
+        bodies: action.payload
+      };
+    case GET_WOOD_TYPES:
+      return {
+        ...state,
+        woods: action.payload
+      };
+    case GET_PICKUP_TYPES:
+      return {
+        ...state,
+        pickups: action.payload
       };
     case GET_BEST_SELLERS:
       return {

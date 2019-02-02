@@ -11,10 +11,23 @@ class Filters extends Component {
         title: 'Body Type',
         options: ['Solid body', 'Semi-hollow body', 'Hollow body']
       },
-      { title: 'Wood', options: ['Wood'] },
-      { title: 'Pickups', options: ['Single Coil', 'Humbucker'] }
-    ],
-    checked: []
+      { title: 'Pickups', options: ['Single Coil', 'Humbucker'] },
+      {
+        title: 'Brands',
+        options: ['Fender', 'Gibson', 'Gretsch', 'PRS', 'Suhr']
+      },
+      {
+        title: 'Price Range',
+        options: [
+          '$0 - $900',
+          '$1000 - $1600',
+          '$1700 - $2000',
+          '$2100 - $2500',
+          '$2600 - $3000',
+          '$3100 - $5000'
+        ]
+      }
+    ]
   };
 
   handleCategoryClick = (e, titleProps) => {
@@ -23,34 +36,6 @@ class Filters extends Component {
     const newIndex = activeIndex === index ? -1 : index;
 
     this.setState({ activeIndex: newIndex });
-  };
-
-  handleChecked = e => {
-    const changed = e.target.innerText;
-
-    const exists = this.state.checked.some(checked => {
-      return Object.keys(checked)[0] === changed;
-    });
-
-    if (exists) {
-      const indexOfExisting = this.state.checked.findIndex(checked => {
-        return Object.keys(checked)[0] === changed;
-      });
-      const changedRemoved = this.state.checked.filter(checked => {
-        return Object.keys(checked)[0] !== changed;
-      });
-      const keyToChange = Object.keys(this.state.checked[indexOfExisting])[0];
-
-      const newChecked = [...changedRemoved, { [keyToChange]: false }];
-
-      this.setState({
-        checked: newChecked
-      });
-    } else {
-      this.setState({
-        checked: [...this.state.checked, { [changed]: true }]
-      });
-    }
   };
 
   renderCategories = categories =>
@@ -62,7 +47,7 @@ class Filters extends Component {
         key={category.title}
         options={category.options}
         onClick={this.handleCategoryClick}
-        handleChecked={this.handleChecked}
+        handleChecked={this.props.handleChecked}
       />
     ));
 
