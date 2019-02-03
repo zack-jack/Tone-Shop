@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Menu, Dropdown } from 'semantic-ui-react';
+import { Link, withRouter } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+
+import { getNewArrivals, getBestSellers } from '../../actions/products';
 
 class ProductHeader extends Component {
   state = {
-    brands: this.props.products.brands,
-    categories: this.props.products.bodies
+    products: this.props.products,
+    newArrivals: this.props.newArrivals,
+    bestSellers: this.props.bestSellers
   };
 
-  handleDropdownClick = () => {
-    this.props.history.push('/browse');
+  handleMenuItemClick = e => {
+    if (e.target.href.includes('new')) {
+      this.props.getNewArrivals(4);
+    }
+
+    if (e.target.href.includes('bestsellers')) {
+      this.props.getBestSellers(15);
+    }
   };
-
-  renderCategories = categories =>
-    categories.map(category => (
-      <Dropdown.Item key={category._id}>{category.name}</Dropdown.Item>
-    ));
-
-  renderBrands = brands =>
-    brands.map(brand => (
-      <Dropdown.Item key={brand._id}>{brand.name}</Dropdown.Item>
-    ));
 
   render() {
     return (
@@ -33,35 +32,25 @@ class ProductHeader extends Component {
         inverted
         className="product-header"
       >
-        <Menu.Item as="a">New Arrivals</Menu.Item>
-        <Menu.Item as="a">Best Sellers</Menu.Item>
-
-        <Menu.Item as="a" onClick={() => this.props.history.push('/browse')}>
-          Browse Guitars
+        <Menu.Item
+          as={Link}
+          to="/browse/new"
+          onClick={this.handleMenuItemClick}
+        >
+          New Arrivals
         </Menu.Item>
 
-        <Dropdown
-          item
-          simple
-          icon={null}
-          text="Categories"
-          onClick={this.handleDropdownClick}
-          className="product-header__dropdown"
+        <Menu.Item
+          as={Link}
+          to="/browse/bestsellers"
+          onClick={this.handleMenuItemClick}
         >
-          <Dropdown.Menu>
-            {this.renderCategories(this.state.categories)}
-          </Dropdown.Menu>
-        </Dropdown>
+          Best Sellers
+        </Menu.Item>
 
-        <Dropdown
-          item
-          simple
-          icon={null}
-          text="Brands"
-          className="product-header__dropdown"
-        >
-          <Dropdown.Menu>{this.renderBrands(this.state.brands)}</Dropdown.Menu>
-        </Dropdown>
+        <Menu.Item as={Link} to="/browse" onClick={this.handleMenuItemClick}>
+          Browse All Guitars
+        </Menu.Item>
       </Menu>
     );
   }
@@ -76,7 +65,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    null
+    { getNewArrivals, getBestSellers }
   ),
   withRouter
 )(ProductHeader);

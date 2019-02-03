@@ -13,7 +13,7 @@ import {
 // Fetches all products
 export const getAllProducts = () => async dispatch => {
   try {
-    const response = await axios.get('product/items');
+    const response = await axios.get('/product/items');
 
     // Dispatch best sellers to redux
     dispatch({ type: GET_ALL_PRODUCTS, payload: response.data.products });
@@ -27,7 +27,7 @@ export const getAllProducts = () => async dispatch => {
 // Fetches all brands
 export const getBrands = () => async dispatch => {
   try {
-    const response = await axios.get('product/brands');
+    const response = await axios.get('/product/brands');
 
     // Dispatch best sellers to redux
     dispatch({ type: GET_BRANDS, payload: response.data.brands });
@@ -41,7 +41,7 @@ export const getBrands = () => async dispatch => {
 // Fetches all body types
 export const getBodyTypes = () => async dispatch => {
   try {
-    const response = await axios.get('product/bodies');
+    const response = await axios.get('/product/bodies');
 
     // Dispatch best sellers to redux
     dispatch({ type: GET_BODY_TYPES, payload: response.data.bodies });
@@ -55,7 +55,7 @@ export const getBodyTypes = () => async dispatch => {
 // Fetches all wood types
 export const getWoodTypes = () => async dispatch => {
   try {
-    const response = await axios.get('product/woods');
+    const response = await axios.get('/product/woods');
 
     // Dispatch best sellers to redux
     dispatch({ type: GET_WOOD_TYPES, payload: response.data.woods });
@@ -69,7 +69,7 @@ export const getWoodTypes = () => async dispatch => {
 // Fetches all pickup types
 export const getPickupTypes = () => async dispatch => {
   try {
-    const response = await axios.get('product/pickups');
+    const response = await axios.get('/product/pickups');
 
     // Dispatch best sellers to redux
     dispatch({ type: GET_PICKUP_TYPES, payload: response.data.pickups });
@@ -84,7 +84,7 @@ export const getPickupTypes = () => async dispatch => {
 export const getBestSellers = limit => async dispatch => {
   try {
     const response = await axios.get(
-      `product/items?sortBy=sold&order=desc&limit=${limit}`
+      `/product/items?sortBy=sold&order=desc&limit=${limit}`
     );
 
     // Dispatch best sellers to redux
@@ -100,7 +100,7 @@ export const getBestSellers = limit => async dispatch => {
 export const getNewArrivals = limit => async dispatch => {
   try {
     const response = await axios.get(
-      `product/items?sortBy=createdAt&order=desc&limit=${limit}`
+      `/product/items?sortBy=createdAt&order=desc&limit=${limit}`
     );
 
     // Dispatch best sellers to redux

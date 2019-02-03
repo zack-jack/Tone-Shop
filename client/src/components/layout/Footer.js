@@ -8,9 +8,8 @@ const lists = [
     header: 'Shop',
     links: [
       { name: 'All Guitars', linkTo: 'browse' },
-      { name: 'Best Sellers', linkTo: 'browse' },
-      { name: 'Newest Arrivals', linkTo: 'browse' },
-      { name: 'Brands', linkTo: 'browse' }
+      { name: 'Best Sellers', linkTo: 'browse/bestsellers' },
+      { name: 'Newest Arrivals', linkTo: 'browse/new' }
     ]
   },
   {
@@ -27,7 +26,7 @@ const lists = [
     header: 'Account',
     links: [
       { name: 'My Account', linkTo: 'account' },
-      { name: 'Track an Order', linkTo: 'orders' },
+      { name: 'Orders', linkTo: 'orders' },
       { name: 'Returns', linkTo: 'returns' }
     ]
   },
