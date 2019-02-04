@@ -5,7 +5,8 @@ import {
   GET_WOOD_TYPES,
   GET_PICKUP_TYPES,
   GET_BEST_SELLERS,
-  GET_NEW_ARRIVALS
+  GET_NEW_ARRIVALS,
+  SET_CURRENT_PRODUCT
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -15,7 +16,8 @@ const INITIAL_STATE = {
   woods: [],
   pickups: [],
   bestSellers: [],
-  newArrivals: []
+  newArrivals: [],
+  currentProduct: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -54,6 +56,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         newArrivals: action.payload
+      };
+    case SET_CURRENT_PRODUCT:
+      return {
+        ...state,
+        currentProduct: action.payload
       };
     default:
       return state;

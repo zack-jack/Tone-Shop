@@ -1,6 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { Container, Grid, Header, List, Icon } from 'semantic-ui-react';
+
+import {
+  getAllProducts,
+  getBestSellers,
+  getNewArrivals
+} from '../../actions/products';
 
 const lists = [
   {
@@ -58,48 +66,78 @@ const lists = [
   }
 ];
 
-const renderLists = lists =>
-  lists.map(list => (
-    <Grid.Column key={list.name} width={list.name === 'social' ? 7 : 3}>
-      <div
-        className={list.name === 'social' ? 'footer__social-container' : null}
-      >
-        <Header as="h4" content={list.header} />
-        <List link className={list.name === 'social' ? 'footer__social' : null}>
-          {list.links.map(link =>
-            list.name === 'social' ? (
-              <List.Item
-                key={link.name}
-                as="a"
-                href={link.linkTo}
-                target="_blank"
-                className="footer__social-link"
-              >
-                <Icon name={link.icon} size="big" />
-              </List.Item>
-            ) : (
-              <List.Item key={link.name}>
-                <Link to={`/${link.linkTo}`}>{link.name}</Link>
-              </List.Item>
-            )
-          )}
-        </List>
-      </div>
-    </Grid.Column>
-  ));
+class Footer extends Component {
+  handleLinkClick = e => {
+    const href = e.target.href.match(/^(https?:\/\/[^/]*\/)(.*)/)[2];
 
-const Footer = () => (
-  <Container fluid className="footer">
-    <Container fluid className="footer__nav">
-      <Grid stackable>
-        <Grid.Row>{renderLists(lists)}</Grid.Row>
-      </Grid>
-    </Container>
+    if (href.includes('new')) {
+      this.props.getNewArrivals(4);
+    } else if (href.includes('bestsellers')) {
+      this.props.getBestSellers(15);
+    } else {
+      this.props.getAllProducts();
+    }
+  };
 
-    <Container fluid className="footer__copyright">
-      &copy; {new Date().getFullYear()} | Tone Shop
-    </Container>
-  </Container>
-);
+  renderLists = lists =>
+    lists.map(list => (
+      <Grid.Column key={list.name} width={list.name === 'social' ? 7 : 3}>
+        <div
+          className={list.name === 'social' ? 'footer__social-container' : null}
+        >
+          <Header as="h4" content={list.header} />
+          <List
+            link
+            className={list.name === 'social' ? 'footer__social' : null}
+          >
+            {list.links.map(link =>
+              list.name === 'social' ? (
+                <List.Item
+                  key={link.name}
+                  as="a"
+                  href={link.linkTo}
+                  target="_blank"
+                  className="footer__social-link"
+                >
+                  <Icon name={link.icon} size="big" />
+                </List.Item>
+              ) : (
+                <List.Item
+                  key={link.name}
+                  as={Link}
+                  to={`/${link.linkTo}`}
+                  onClick={this.handleLinkClick}
+                >
+                  {link.name}
+                </List.Item>
+              )
+            )}
+          </List>
+        </div>
+      </Grid.Column>
+    ));
 
-export default Footer;
+  render() {
+    return (
+      <Container fluid className="footer">
+        <Container fluid className="footer__nav">
+          <Grid stackable>
+            <Grid.Row>{this.renderLists(lists)}</Grid.Row>
+          </Grid>
+        </Container>
+
+        <Container fluid className="footer__copyright">
+          &copy; {new Date().getFullYear()} | Tone Shop
+        </Container>
+      </Container>
+    );
+  }
+}
+
+export default compose(
+  connect(
+    null,
+    { getAllProducts, getNewArrivals, getBestSellers }
+  ),
+  withRouter
+)(Footer);

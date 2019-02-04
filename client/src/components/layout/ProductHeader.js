@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
-import { getNewArrivals, getBestSellers } from '../../actions/products';
+import {
+  getAllProducts,
+  getNewArrivals,
+  getBestSellers
+} from '../../actions/products';
 
 class ProductHeader extends Component {
   state = {
@@ -16,10 +20,10 @@ class ProductHeader extends Component {
   handleMenuItemClick = e => {
     if (e.target.href.includes('new')) {
       this.props.getNewArrivals(4);
-    }
-
-    if (e.target.href.includes('bestsellers')) {
+    } else if (e.target.href.includes('bestsellers')) {
       this.props.getBestSellers(15);
+    } else {
+      this.props.getAllProducts();
     }
   };
 
@@ -65,7 +69,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { getNewArrivals, getBestSellers }
+    { getAllProducts, getNewArrivals, getBestSellers }
   ),
   withRouter
 )(ProductHeader);

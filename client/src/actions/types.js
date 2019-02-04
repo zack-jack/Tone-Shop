@@ -13,3 +13,4 @@ export const GET_WOOD_TYPES = 'get_wood_types';
 export const GET_PICKUP_TYPES = 'get_pickup_types';
 export const GET_BEST_SELLERS = 'get_best_sellers';
 export const GET_NEW_ARRIVALS = 'get_new_arrivals';
+export const SET_CURRENT_PRODUCT = 'set_current_product';
