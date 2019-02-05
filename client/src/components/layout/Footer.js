@@ -70,6 +70,8 @@ class Footer extends Component {
   handleLinkClick = e => {
     const href = e.target.href.match(/^(https?:\/\/[^/]*\/)(.*)/)[2];
 
+    window.scrollTo(0, 0);
+
     if (href.includes('new')) {
       this.props.getNewArrivals(4);
     } else if (href.includes('bestsellers')) {

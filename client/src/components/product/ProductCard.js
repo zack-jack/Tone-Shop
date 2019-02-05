@@ -23,16 +23,32 @@ class ProductCard extends Component {
   render() {
     return (
       <Card>
-        <Image src={this.props.product.images[0]} />
         <Card.Content textAlign="center" _id={this.props.product._id}>
-          <Card.Header>{this.props.product.name}</Card.Header>
-          <Card.Meta>{this.props.product.brand.name}</Card.Meta>
+          <Card.Header className="product-card__header">
+            {this.props.product.name}
+          </Card.Header>
+          <Card.Meta className="product-card__meta">
+            {this.props.product.brand.name}
+          </Card.Meta>
+          <Image src={this.props.product.images[0]} />
+
           <Header>{`$ ${this.props.product.price.toFixed(2)}`}</Header>
 
-          <Button color="red" onClick={this.handleAddToCart}>
+          <Button
+            fluid
+            color="red"
+            className="product-card__button"
+            onClick={this.handleAddToCart}
+          >
             Add to Cart
           </Button>
-          <Button basic color="red" onClick={this.handleViewItem}>
+          <Button
+            fluid
+            basic
+            color="red"
+            className="product-card__button"
+            onClick={this.handleViewItem}
+          >
             View Item
           </Button>
         </Card.Content>

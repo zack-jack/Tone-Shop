@@ -40,3 +40,21 @@
     }
   }
 }
+
+.slick-prev {
+  left: 5% !important;
+  z-index: 5000;
+
+  &:before {
+    color: black !important;
+  }
+}
+
+.slick-next {
+  right: 5% !important;
+  z-index: 5000;
+
+  &:before {
+    color: black !important;
+  }
+}

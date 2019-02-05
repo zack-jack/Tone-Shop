@@ -40,13 +40,18 @@ class Account extends Component {
 
               <Grid.Row className="account__user-email">
                 <Header as="h4">Email Address</Header>
-                {email}
+                <p>{email}</p>
               </Grid.Row>
 
               {this.state.user.address ? (
-                <Grid.Row>
-                  <Header as="h4">Primary Mailing Address</Header>
-                  address
+                <Grid.Row className="account__user-address">
+                  <Header as="h4">Mailing Address</Header>
+                  <p>
+                    {this.state.user.address.address1}
+                    <div>{`${this.state.user.address.city}, ${
+                      this.state.user.address.state
+                    } ${this.state.user.address.zipCode}`}</div>
+                  </p>
                 </Grid.Row>
               ) : null}
 

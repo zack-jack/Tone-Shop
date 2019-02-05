@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
 import {
   Container,
   Header,
@@ -13,8 +14,20 @@ import {
 
 class Product extends Component {
   state = {
-    currentProduct: this.props.currentProduct
+    currentProduct: this.props.currentProduct,
+    sliderSettings: {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true
+    }
   };
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ currentProduct: nextProps.currentProduct });
@@ -38,17 +51,25 @@ class Product extends Component {
     return this.props.pickups.filter(pickup => pickup._id === pickupsId)[0];
   };
 
+  renderSliderImages = () => {
+    return this.state.currentProduct.images.map((image, i) => (
+      <Image src={image} />
+    ));
+  };
+
   render() {
     return (
-      <Container>
+      <Container className="product__container">
         <Header as="h2">{this.state.currentProduct.name}</Header>
         <Header>{this.getBrandFromId(this.state.currentProduct.brand)}</Header>
         <Grid>
-          <Grid.Row columns={2}>
-            <Grid.Column>
-              <Image src="" />
+          <Grid.Row columns={2} style={{ marginBottom: '6rem' }}>
+            <Grid.Column padded>
+              <Slider {...this.state.sliderSettings}>
+                {this.renderSliderImages()}
+              </Slider>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column padded>
               <Header>${this.state.currentProduct.price.toFixed(2)}</Header>
               <p>{this.state.currentProduct.color}</p>
               {this.state.currentProduct.available ? (
@@ -64,12 +85,16 @@ class Product extends Component {
               )}
               <Divider hidden />
 
-              <Button onClick={this.handleAddToCart}>Add to Cart</Button>
+              <Button color="red" onClick={this.handleAddToCart}>
+                Add to Cart
+              </Button>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row>
+          <Grid.Row style={{ marginBottom: '2rem' }}>
             <Header>Description</Header>
-            <p>{this.state.currentProduct.description}</p>
+            <p className="product__description">
+              {this.state.currentProduct.description}
+            </p>
           </Grid.Row>
           <Grid.Row>
             <Header>Specs</Header>
