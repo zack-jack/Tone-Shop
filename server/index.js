@@ -10,10 +10,7 @@ const app = express();
 const db = 'mongodb://localhost:27017/tone-shop';
 
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 

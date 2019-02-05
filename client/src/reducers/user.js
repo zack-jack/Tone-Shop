@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from '../actions/types';
+import { SET_CURRENT_USER, UPDATE_USER_ADDRESS } from '../actions/types';
 
 const INITIAL_STATE = {
   data: {}
@@ -10,6 +10,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: action.payload
+      };
+    case UPDATE_USER_ADDRESS:
+      return {
+        ...state,
+        addressMessages: action.payload
       };
     default:
       return state;

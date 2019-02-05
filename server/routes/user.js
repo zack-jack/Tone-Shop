@@ -50,4 +50,7 @@ router.post('/login', authenticate, auth.login);
 // Get currently authenticated user's data
 router.get('/current', user.getCurrentUser);
 
+// Update current user
+router.post('/update', user.updateUser);
+
 module.exports = router;

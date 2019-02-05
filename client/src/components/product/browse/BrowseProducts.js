@@ -39,6 +39,16 @@ class BrowseProducts extends Component {
     // Get products, brands, body types, woods, and pickups from db and dispatch to redux
     this.fetchProductInfo();
 
+    // URL contains brand ID to filter by
+    if (window.location.href.includes('brand')) {
+      const brandId = window.location.href.match(/\/([^/]+)\/?$/)[1];
+      const checked = this.state.brands.filter(brand => brand._id === brandId);
+      const key = checked[0].name;
+      const addToCheckedState = { [key]: true };
+
+      this.setState({ checked: this.state.checked.concat(addToCheckedState) });
+    }
+
     // Set initial grid of products to display
     this.setInitialGrid();
   }

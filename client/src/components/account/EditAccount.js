@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Grid, Form, Header, Button } from 'semantic-ui-react';
+import { Grid, Form, Header, Message, Button } from 'semantic-ui-react';
+
+import { updateUserAddress } from '../../actions/user';
 
 class EditAccount extends Component {
   state = {
+    currentUser: this.props.currentUser,
     firstName: '',
     lastName: '',
-    email: '',
     address1: '',
     address2: '',
     city: '',
@@ -15,14 +19,86 @@ class EditAccount extends Component {
     formData: {
       firstName: '',
       lastName: '',
-      email: '',
       address1: '',
       address2: '',
       city: '',
       state: '',
       zipCode: ''
     },
-    isSubmitting: false
+    isSubmitting: false,
+    statusMessage: ''
+  };
+
+  componentDidMount() {
+    this.setState({ currentUser: this.props.currentUser });
+
+    // Reset redux props for address form
+    this.props.updateUserAddress(this.state.currentUser._id, {});
+  }
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    this.setState({ isSubmitting: true });
+
+    // Take field values and pass them to form data object for redux action
+    this.setState(
+      {
+        formData: {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email,
+          address1: this.state.address1,
+          address2: this.state.address2,
+          city: this.state.city,
+          state: this.state.state,
+          zipCode: this.state.zipCode
+        }
+      },
+      () => {
+        // Execute redux action to sign in and authenticate user
+        this.props
+          .updateUserAddress(this.state.currentUser._id, this.state.formData)
+          .then(json => {
+            this.setState({ isSubmitting: false });
+
+            // Error message received
+            if (json.hasOwnProperty('response')) {
+              this.setState({ statusMessage: json.response.data });
+            }
+
+            // Success message received
+            if (json.hasOwnProperty('data')) {
+              this.setState({ statusMessage: json.data });
+
+              setTimeout(() => {
+                // Redirect to user account page
+                this.props.history.push('/account');
+              }, 2000);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+
+            this.setState({ isSubmitting: false });
+          });
+      }
+    );
+  };
+
+  renderMessage = () => {
+    if (this.state.statusMessage && this.state.statusMessage.type === 'error') {
+      return <Message error content={this.state.statusMessage.message} />;
+    }
+
+    if (
+      this.state.statusMessage &&
+      this.state.statusMessage.type === 'success'
+    ) {
+      return <Message success content={this.state.statusMessage.message} />;
+    }
   };
 
   render() {
@@ -50,7 +126,6 @@ class EditAccount extends Component {
               value={firstName}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="lastName"
@@ -59,7 +134,6 @@ class EditAccount extends Component {
               value={lastName}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="address1"
@@ -68,7 +142,6 @@ class EditAccount extends Component {
               value={address1}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="address2"
@@ -77,7 +150,6 @@ class EditAccount extends Component {
               value={address2}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="city"
@@ -86,7 +158,6 @@ class EditAccount extends Component {
               value={city}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="state"
@@ -95,7 +166,6 @@ class EditAccount extends Component {
               value={state}
               onChange={this.handleChange}
             />
-
             <Form.Input
               fluid
               name="zipCode"
@@ -111,7 +181,9 @@ class EditAccount extends Component {
               disabled={isSubmitting}
               size="large"
             >
-              Update Address
+              {this.state.currentUser !== null && this.state.currentUser.address
+                ? 'Update Address'
+                : 'Add Address'}
             </Button>
 
             <Button
@@ -121,10 +193,24 @@ class EditAccount extends Component {
               Cancel
             </Button>
           </Form>
+
+          {this.renderMessage()}
         </Grid.Column>
       </Grid>
     );
   }
 }
 
-export default withRouter(EditAccount);
+const mapStateToProps = state => {
+  return {
+    currentUser: state.user.data
+  };
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    { updateUserAddress }
+  ),
+  withRouter
+)(EditAccount);

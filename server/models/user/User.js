@@ -29,8 +29,8 @@ const userSchema = new Schema({
     default: false
   },
   address: {
-    type: Schema.Types.ObjectId,
-    ref: 'Address'
+    type: Object,
+    default: {}
   }
 });
 

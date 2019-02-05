@@ -46,7 +46,7 @@ class Account extends Component {
               {this.state.user.address ? (
                 <Grid.Row>
                   <Header as="h4">Primary Mailing Address</Header>
-                  {this.state.user.address}
+                  address
                 </Grid.Row>
               ) : null}
 
