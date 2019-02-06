@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import { SET_CURRENT_USER, UPDATE_USER_ADDRESS, ADD_TO_CART } from './types';
+import {
+  SET_CURRENT_USER,
+  UPDATE_USER_ADDRESS,
+  ADD_TO_CART,
+  UPDATE_CART,
+  REMOVE_FROM_CART
+} from './types';
 
 export const setCurrentUser = () => async dispatch => {
   try {
@@ -77,6 +83,51 @@ export const addToCart = (
 
     // Dispatch product id to add to redux store user cart state
     dispatch({ type: ADD_TO_CART, payload: nextCart });
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const updateCart = (prevCart, newQuantities) => async dispatch => {
+  try {
+    const updatedCart = prevCart.map((item, i) => {
+      if (newQuantities[i] === 0) {
+        return {};
+      } else {
+        return {
+          _id: item._id,
+          product: item.product,
+          quantity: newQuantities[i]
+        };
+      }
+    });
+
+    // Remove empty objects with 0 quantity
+    const newCart = updatedCart.filter(item => {
+      if (Object.entries(item).length === 0 && item.constructor === Object) {
+        return false;
+      } else {
+        return item;
+      }
+    });
+
+    // Dispatch updated cart to redux store user cart state
+    dispatch({ type: UPDATE_CART, payload: newCart });
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const removeFromCart = (idToRemove, prevCart) => async dispatch => {
+  try {
+    const newCart = prevCart.filter(item => item._id !== idToRemove);
+
+    // Dispatch updated cart to redux store user cart state
+    dispatch({ type: REMOVE_FROM_CART, payload: newCart });
   } catch (err) {
     if (err) {
       return err;

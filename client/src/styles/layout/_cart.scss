@@ -1,0 +1,9 @@
+.cart-page {
+  min-height: 45vh;
+  padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+
+  &__quantity {
+    display: flex;
+    margin-bottom: 0.5rem;
+  }
+}

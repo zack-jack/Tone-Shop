@@ -17,6 +17,7 @@ import SignIn from './components/auth/SignIn';
 import Loading from './components/common/Loading';
 import Account from './components/account/Account';
 import EditAccount from './components/account/EditAccount';
+import Cart from './components/account/Cart';
 import BrowseProducts from './components/product/browse/BrowseProducts';
 import Product from './components/product/Product';
 import About from './components/explore/About';
@@ -38,6 +39,7 @@ ReactDOM.render(
             <Route path="/signup" render={() => <SignUp />} />
             <Route path="/signin" render={() => <SignIn />} />
             <Route path="/account" render={() => <Account />} />
+            <Route path="/cart" render={() => <Cart />} />
             <Route path="/orders" render={() => <Orders />} />
             <Route path="/returns" render={() => <Returns />} />
             <Route path="/edit/account" render={() => <EditAccount />} />

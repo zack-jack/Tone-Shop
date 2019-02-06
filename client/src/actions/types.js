@@ -6,6 +6,8 @@ export const AUTH_ERROR = 'auth_error';
 export const SET_CURRENT_USER = 'set_current_user';
 export const UPDATE_USER_ADDRESS = 'update_user_address';
 export const ADD_TO_CART = 'add_to_cart';
+export const UPDATE_CART = 'update_cart';
+export const REMOVE_FROM_CART = 'remove_from_cart';
 
 // Product
 export const GET_ALL_PRODUCTS = 'get_all_products';
