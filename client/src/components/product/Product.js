@@ -12,9 +12,13 @@ import {
   Table
 } from 'semantic-ui-react';
 
+import { addToCart } from '../../actions/user';
+
 class Product extends Component {
   state = {
+    allProducts: this.props.allProducts,
     currentProduct: this.props.currentProduct,
+    cart: this.props.cart,
     sliderSettings: {
       dots: true,
       infinite: false,
@@ -30,10 +34,48 @@ class Product extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ currentProduct: nextProps.currentProduct });
+    this.setState({
+      allProducts: nextProps.allProducts,
+      currentProduct: nextProps.currentProduct,
+      cart: nextProps.cart
+    });
   }
 
-  handleAddToCart = () => {};
+  handleAddToCart = e => {
+    // Get the product id from click event
+    const id = e.target.getAttribute('_id');
+
+    // Get product to add
+    const productIdMatch = this.state.allProducts.filter(
+      product => product._id === id
+    );
+
+    // Check if a product with target id already exists in the cart
+    const idExistsInCart = this.state.cart.some(item => item._id === id);
+
+    let productToAdd;
+
+    if (idExistsInCart) {
+      // Find index of item that exists in cart and matches target id
+      const matchIndex = this.state.cart.findIndex(item => item._id === id);
+      // console.log(matchIndex, this.state.cart, this.state.cart[matchIndex]);
+
+      productToAdd = {
+        _id: id,
+        product: productIdMatch[0],
+        quantity: this.state.cart[matchIndex].quantity + 1
+      };
+    } else {
+      productToAdd = {
+        _id: id,
+        product: productIdMatch[0],
+        quantity: 1
+      };
+    }
+
+    // Add item to cart in redux store
+    this.props.addToCart(productToAdd, this.state.cart, idExistsInCart);
+  };
 
   getBrandFromId = brandId => {
     return this.props.brands.filter(brand => brand._id === brandId)[0].name;
@@ -85,7 +127,11 @@ class Product extends Component {
               )}
               <Divider hidden />
 
-              <Button color="red" onClick={this.handleAddToCart}>
+              <Button
+                color="red"
+                _id={this.state.currentProduct._id}
+                onClick={this.handleAddToCart}
+              >
                 Add to Cart
               </Button>
             </Grid.Column>
@@ -164,12 +210,17 @@ class Product extends Component {
 
 const mapStateToProps = state => {
   return {
+    allProducts: state.products.allProducts,
     currentProduct: state.products.currentProduct,
     brands: state.products.brands,
     bodies: state.products.bodies,
+    cart: state.user.cart,
     woods: state.products.woods,
     pickups: state.products.pickups
   };
 };
 
-export default connect(mapStateToProps)(Product);
+export default connect(
+  mapStateToProps,
+  { addToCart }
+)(Product);

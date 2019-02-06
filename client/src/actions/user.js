@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_CURRENT_USER, UPDATE_USER_ADDRESS } from './types';
+import { SET_CURRENT_USER, UPDATE_USER_ADDRESS, ADD_TO_CART } from './types';
 
 export const setCurrentUser = () => async dispatch => {
   try {
@@ -41,6 +41,42 @@ export const updateUserAddress = (userId, formData) => async dispatch => {
 
       return response;
     }
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const addToCart = (
+  product,
+  prevCart,
+  idExistsInCart
+) => async dispatch => {
+  try {
+    let nextCart = [];
+
+    if (prevCart.length === 0) {
+      nextCart = [product];
+    }
+
+    if (prevCart && prevCart.length > 0) {
+      if (idExistsInCart) {
+        // Get everything in cart except for the current target product
+        const cartLessCurrentProd = prevCart.filter(item =>
+          item._id === product._id ? false : true
+        );
+
+        // Update cart with current product that has updated quantity
+        nextCart = cartLessCurrentProd.concat(product);
+      } else {
+        // Targeted product hasn't been added to cart
+        nextCart = prevCart.concat(product);
+      }
+    }
+
+    // Dispatch product id to add to redux store user cart state
+    dispatch({ type: ADD_TO_CART, payload: nextCart });
   } catch (err) {
     if (err) {
       return err;

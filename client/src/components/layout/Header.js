@@ -12,6 +12,7 @@ class Header extends Component {
     allProducts: this.props.allProducts,
     authToken: this.props.authToken,
     brands: this.props.brands,
+    cart: this.props.cart,
     isAuth: false,
     searchQuery: ''
   };
@@ -28,6 +29,11 @@ class Header extends Component {
     if (nextProps.authToken !== this.state.authToken) {
       // Update state with new props
       this.setState({ authToken: nextProps.authToken });
+    }
+
+    // Check if changes to shopping cart
+    if (this.state.cart !== nextProps.cart) {
+      this.setState({ cart: nextProps.cart });
     }
 
     // Check if auth token is not empty string
@@ -110,8 +116,15 @@ class Header extends Component {
         >
           {item === 'Cart' ? (
             <span>
-              <Icon name="cart" style={{ marginRight: '0.75rem' }} />
-              {item}
+              <Icon.Group style={{ marginRight: '0.5rem' }}>
+                <Icon name="cart" size="large" />
+                {this.state.cart && this.state.cart.length > 0 ? (
+                  <Icon color="red" corner="top right" name="circle" />
+                ) : null}
+              </Icon.Group>
+              {this.state.cart && this.state.cart.length > 0
+                ? `${item} (${this.state.cart.length})`
+                : item}
             </span>
           ) : (
             item
@@ -152,7 +165,8 @@ const mapStateToProps = state => {
   return {
     allProducts: state.products.allProducts,
     authToken: state.auth.authToken,
-    brands: state.products.brands
+    brands: state.products.brands,
+    cart: state.user.cart
   };
 };
 

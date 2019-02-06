@@ -4,9 +4,21 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Card, Image, Header, Button } from 'semantic-ui-react';
 
+import { addToCart } from '../../actions/user';
 import { setCurrentProduct } from '../../actions/products';
 
 class ProductCard extends Component {
+  state = {
+    allProducts: this.props.allProducts,
+    cart: this.props.cart
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.cart !== nextProps.cart) {
+      this.setState({ cart: nextProps.cart });
+    }
+  }
+
   handleViewItem = e => {
     // Get current product id
     const id = e.target.parentNode.getAttribute('_id');
@@ -18,7 +30,40 @@ class ProductCard extends Component {
     });
   };
 
-  handleAddToCart = () => {};
+  handleAddToCart = e => {
+    // Get the product id from click event
+    const id = e.target.parentNode.getAttribute('_id');
+
+    // Get product to add
+    const productIdMatch = this.state.allProducts.filter(
+      product => product._id === id
+    );
+
+    // Check if a product with target id already exists in the cart
+    const idExistsInCart = this.state.cart.some(item => item._id === id);
+
+    let productToAdd;
+
+    if (idExistsInCart) {
+      // Find index of item that exists in cart and matches target id
+      const matchIndex = this.state.cart.findIndex(item => item._id === id);
+
+      productToAdd = {
+        _id: id,
+        product: productIdMatch[0],
+        quantity: this.state.cart[matchIndex].quantity + 1
+      };
+    } else {
+      productToAdd = {
+        _id: id,
+        product: productIdMatch[0],
+        quantity: 1
+      };
+    }
+
+    // Add item to cart in redux store
+    this.props.addToCart(productToAdd, this.state.cart, idExistsInCart);
+  };
 
   render() {
     return (
@@ -27,9 +72,7 @@ class ProductCard extends Component {
           <Card.Header className="product-card__header">
             {this.props.product.name}
           </Card.Header>
-          <Card.Meta className="product-card__meta">
-            {this.props.product.brand.name}
-          </Card.Meta>
+
           <Image src={this.props.product.images[0]} />
 
           <Header>{`$ ${this.props.product.price.toFixed(2)}`}</Header>
@@ -57,10 +100,17 @@ class ProductCard extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    allProducts: state.products.allProducts,
+    cart: state.user.cart
+  };
+};
+
 export default compose(
   connect(
-    null,
-    { setCurrentProduct }
+    mapStateToProps,
+    { setCurrentProduct, addToCart }
   ),
   withRouter
 )(ProductCard);

@@ -1,7 +1,12 @@
-import { SET_CURRENT_USER, UPDATE_USER_ADDRESS } from '../actions/types';
+import {
+  SET_CURRENT_USER,
+  UPDATE_USER_ADDRESS,
+  ADD_TO_CART
+} from '../actions/types';
 
 const INITIAL_STATE = {
-  data: {}
+  data: {},
+  cart: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -15,6 +20,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         addressMessages: action.payload
+      };
+    case ADD_TO_CART:
+      return {
+        ...state,
+        cart: action.payload
       };
     default:
       return state;
