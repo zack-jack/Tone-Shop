@@ -173,8 +173,6 @@ exports.fetchProductById = (req, res, next) => {
 
     // Convert ids to mongoose object ids
     items = itemIds.map(item => mongoose.Types.ObjectId(item));
-
-    console.log(itemIds, items);
   } else {
     const itemId = req.params.id;
     const item = mongoose.Types.ObjectId(itemId);

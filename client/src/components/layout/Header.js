@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Menu, Input, Icon } from 'semantic-ui-react';
+import { Menu, Form, Icon } from 'semantic-ui-react';
 
 import { signOut } from '../../actions/auth';
+import { setCurrentProduct, setSearchResults } from '../../actions/products';
 
 class Header extends Component {
   state = {
+    allProducts: this.props.allProducts,
     authToken: this.props.authToken,
-    isAuth: false
+    brands: this.props.brands,
+    isAuth: false,
+    searchQuery: ''
   };
 
   componentDidMount() {
@@ -52,6 +56,42 @@ class Header extends Component {
     }
   };
 
+  handleSearchInputChange = (e, { name, value }) =>
+    this.setState({ [name]: value });
+
+  handleSearchSubmit = e => {
+    e.preventDefault();
+
+    const searchQuery = this.state.searchQuery.toLowerCase();
+
+    // Loop through array and check names against search query
+    const brands = this.state.brands.filter(brand =>
+      brand.name.toLowerCase().includes(searchQuery)
+    );
+    const products = this.state.allProducts.filter(product =>
+      product.name.toLowerCase().includes(searchQuery)
+    );
+
+    if (products.length > 0 || (products.length > 0 && brands.length > 0)) {
+      // Products search yielded results
+      if (products.length === 1) {
+        // One single product returned
+        this.props.setCurrentProduct(products[0]._id);
+
+        // Redirect to product page
+        this.props.history.push(`/product/${products[0]._id}`);
+      } else {
+        this.props.setSearchResults(products);
+        this.props.history.push('/browse/results');
+      }
+    } else if (brands.length > 0 && products.length === 0) {
+      // Search for brand to display
+      this.props.history.push(`/browse/brand/${brands[0]._id}`);
+    } else {
+      // No results found
+    }
+  };
+
   renderNavItems = () => {
     const navItems = this.state.isAuth
       ? ['Cart', 'Account', 'Sign Out']
@@ -91,7 +131,15 @@ class Header extends Component {
 
         <div className="user-header__links">
           <Menu.Item>
-            <Input icon="search" placeholder="Search..." />
+            <Form onSubmit={this.handleSearchSubmit}>
+              <Form.Input
+                action={{ icon: 'search' }}
+                placeholder="Search..."
+                name="searchQuery"
+                value={this.state.search}
+                onChange={this.handleSearchInputChange}
+              />
+            </Form>
           </Menu.Item>
           {this.renderNavItems()}
         </div>
@@ -102,14 +150,16 @@ class Header extends Component {
 
 const mapStateToProps = state => {
   return {
-    authToken: state.auth.authToken
+    allProducts: state.products.allProducts,
+    authToken: state.auth.authToken,
+    brands: state.products.brands
   };
 };
 
 export default compose(
   connect(
     mapStateToProps,
-    { signOut }
+    { setCurrentProduct, setSearchResults, signOut }
   ),
   withRouter
 )(Header);

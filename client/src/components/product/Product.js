@@ -53,7 +53,7 @@ class Product extends Component {
 
   renderSliderImages = () => {
     return this.state.currentProduct.images.map((image, i) => (
-      <Image src={image} />
+      <Image key={i} src={image} />
     ));
   };
 
@@ -64,12 +64,12 @@ class Product extends Component {
         <Header>{this.getBrandFromId(this.state.currentProduct.brand)}</Header>
         <Grid>
           <Grid.Row columns={2} style={{ marginBottom: '6rem' }}>
-            <Grid.Column padded>
+            <Grid.Column padded="true">
               <Slider {...this.state.sliderSettings}>
                 {this.renderSliderImages()}
               </Slider>
             </Grid.Column>
-            <Grid.Column padded>
+            <Grid.Column padded="true">
               <Header>${this.state.currentProduct.price.toFixed(2)}</Header>
               <p>{this.state.currentProduct.color}</p>
               {this.state.currentProduct.available ? (

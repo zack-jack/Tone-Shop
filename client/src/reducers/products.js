@@ -6,7 +6,8 @@ import {
   GET_PICKUP_TYPES,
   GET_BEST_SELLERS,
   GET_NEW_ARRIVALS,
-  SET_CURRENT_PRODUCT
+  SET_CURRENT_PRODUCT,
+  SET_SEARCH_RESULTS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,7 +18,8 @@ const INITIAL_STATE = {
   pickups: [],
   bestSellers: [],
   newArrivals: [],
-  currentProduct: {}
+  currentProduct: {},
+  searchResults: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -61,6 +63,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentProduct: action.payload
+      };
+    case SET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: action.payload
       };
     default:
       return state;

@@ -8,7 +8,8 @@ import {
   GET_PICKUP_TYPES,
   GET_BEST_SELLERS,
   GET_NEW_ARRIVALS,
-  SET_CURRENT_PRODUCT
+  SET_CURRENT_PRODUCT,
+  SET_SEARCH_RESULTS
 } from './types';
 
 // Fetches all products
@@ -116,9 +117,6 @@ export const getNewArrivals = limit => async dispatch => {
 // Active product that is selected
 export const setCurrentProduct = id => async (dispatch, getState) => {
   try {
-    // // Get the product id from the click event
-    // const id = e.target.parentNode.getAttribute('_id');
-
     const products = getState().products.allProducts;
 
     // Loop through products and get the data for the id clicked
@@ -126,6 +124,16 @@ export const setCurrentProduct = id => async (dispatch, getState) => {
 
     // Dispatch currently selected product to redux
     dispatch({ type: SET_CURRENT_PRODUCT, payload });
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const setSearchResults = products => async dispatch => {
+  try {
+    dispatch({ type: SET_SEARCH_RESULTS, payload: products });
   } catch (err) {
     if (err) {
       return err;

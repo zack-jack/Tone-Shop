@@ -11,7 +11,8 @@ import {
   getWoodTypes,
   getPickupTypes,
   getBestSellers,
-  getNewArrivals
+  getNewArrivals,
+  setSearchResults
 } from '../../../actions/products';
 
 import Filters from './Filters';
@@ -32,7 +33,8 @@ class BrowseProducts extends Component {
     initialGrid: [],
     productsGrid: [],
     checked: [],
-    filteredProducts: undefined
+    filteredProducts: undefined,
+    searchResults: this.props.searchResults
   };
 
   componentDidMount() {
@@ -47,6 +49,15 @@ class BrowseProducts extends Component {
       const addToCheckedState = { [key]: true };
 
       this.setState({ checked: this.state.checked.concat(addToCheckedState) });
+    }
+
+    // Check if redirected with a search query
+    if (
+      window.location.href.includes('results') &&
+      this.state.searchResults.length > 0
+    ) {
+      // this.updateFilteredProducts();
+      this.updateDisplayGrid();
     }
 
     // Set initial grid of products to display
@@ -76,6 +87,17 @@ class BrowseProducts extends Component {
       setTimeout(() => {
         this.updateDisplayGrid();
       }, 100);
+    }
+
+    // Clear search results when filters are applied
+    if (
+      this.state.searchResults.length > 0 &&
+      ((this.state.checked && this.state.checked.length > 0) ||
+        (this.state.filteredProducts && this.state.filteredProducts.length > 0))
+    ) {
+      this.setState({ searchResults: [] });
+
+      this.props.setSearchResults([]);
     }
   }
 
@@ -142,6 +164,14 @@ class BrowseProducts extends Component {
         productsGrid: this.state.bestSellers.slice(startIndex, endIndex),
         initialGrid: this.state.bestSellers.slice(startIndex, endIndex)
       });
+    } else if (
+      window.location.href.includes('results') &&
+      this.state.searchResults.length > 0
+    ) {
+      this.setState({
+        productsGrid: this.state.searchResults.slice(startIndex, endIndex),
+        initialGrid: this.state.searchResults.slice(startIndex, endIndex)
+      });
     } else {
       // Split products into initial items to display
       const productsGrid = this.state.allProducts.slice(startIndex, endIndex);
@@ -171,6 +201,13 @@ class BrowseProducts extends Component {
     } else if (window.location.href.includes('bestsellers')) {
       this.setState({
         productsGrid: this.state.bestSellers.slice(startIndex, endIndex)
+      });
+    } else if (
+      window.location.href.includes('results') &&
+      this.state.searchResults.length > 0
+    ) {
+      this.setState({
+        productsGrid: this.state.searchResults.slice(startIndex, endIndex)
       });
     } else if (
       this.state.filteredProducts &&
@@ -403,6 +440,17 @@ class BrowseProducts extends Component {
       });
     }
 
+    // Route includes search results
+    if (
+      window.location.href.includes('results') &&
+      this.state.searchResults.length > 0 &&
+      (!this.state.filteredProducts || this.state.filteredProducts.length === 0)
+    ) {
+      this.setState({
+        productsGrid: this.state.searchResults.slice(startIndex, endIndex)
+      });
+    }
+
     // There are filters applied in state, so show filtered products
     if (this.state.filteredProducts && this.state.filteredProducts.length > 0) {
       const newFilteredProducts = this.filterProducts(this.state.allProducts);
@@ -498,6 +546,11 @@ class BrowseProducts extends Component {
         return this.state.newArrivals.length;
       } else if (window.location.href.includes('bestsellers')) {
         return this.state.bestSellers.length;
+      } else if (
+        window.location.href.includes('results') &&
+        this.state.searchResults.length > 0
+      ) {
+        return this.state.searchResults.length;
       } else {
         return this.state.allProducts.length;
       }
@@ -531,7 +584,8 @@ class BrowseProducts extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products,
+    searchResults: state.products.searchResults
   };
 };
 
@@ -545,7 +599,8 @@ export default compose(
       getWoodTypes,
       getPickupTypes,
       getBestSellers,
-      getNewArrivals
+      getNewArrivals,
+      setSearchResults
     }
   ),
   withRouter
