@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 
 import { addOrderToHistory, removeFromCart } from '../../actions/user';
-import { stripePK } from './stripeKeys';
 
 class Checkout extends Component {
   state = {
@@ -48,7 +47,7 @@ class Checkout extends Component {
         label="Checkout"
         name="Tone Shop"
         shippingAddress
-        stripeKey={stripePK}
+        stripeKey={this.props.stripeKey}
         token={this.onToken}
       />
     );

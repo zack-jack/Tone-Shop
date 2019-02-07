@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react';
 
 import { updateCart, removeFromCart } from '../../actions/user';
-import CheckoutForm from './Checkout';
+import Checkout from './Checkout';
 
 class Cart extends Component {
   state = {
@@ -135,19 +135,15 @@ class Cart extends Component {
             <Divider hidden />
             <p>Cart is empty.</p>
             <Divider hidden />
+            <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
           </>
-        ) : null}
-        {this.renderCartItems()}
-        <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
-        <CheckoutForm />
-        {/* <Button
-          color="red"
-          disabled={!this.state.cart.length > 0}
-          onClick={this.handleCheckout}
-        >
-          <Icon name="check circle outline" />
-          Checkout
-        </Button> */}
+        ) : (
+          <>
+            {this.renderCartItems()}
+            <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
+            <Checkout stripeKey={this.props.stripeKey} />
+          </>
+        )}
       </Container>
     );
   }
