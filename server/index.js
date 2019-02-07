@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -7,7 +8,7 @@ const morgan = require('morgan');
 const app = express();
 
 // Database setup
-const db = 'mongodb://localhost:27017/tone-shop';
+const db = process.env.MONGO_MLAB_URI;
 
 mongoose
   .connect(db, { useNewUrlParser: true })

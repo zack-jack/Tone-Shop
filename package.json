@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "description": "E-commerce website for guitars",
   "main": "index.js",
+  "engines": {
+    "node": "11.1.0"
+  },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
+    "start": "node index.js",
     "client": "npm start --prefix client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zackjacksongit/tone-shop.git"
+    "url": "git+https://github.com/zackjacksongit/Tone-Shop.git"
   },
   "keywords": [
     "e-commerce"
@@ -19,9 +23,9 @@
   "author": "Zack Jackson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zackjacksongit/tone-shop/issues"
+    "url": "https://github.com/zackjacksongit/Tone-Shop/issues"
   },
-  "homepage": "https://github.com/zackjacksongit/tone-shop#readme",
+  "homepage": "https://github.com/zackjacksongit/Tone-Shop#readme",
   "devDependencies": {
     "concurrently": "^4.1.0",
     "morgan": "^1.9.1",
@@ -30,6 +34,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.4",

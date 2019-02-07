@@ -50,12 +50,10 @@ class Account extends Component {
               {this.state.user.address ? (
                 <Grid.Row className="account__user-address">
                   <Header as="h4">Mailing Address</Header>
-                  <p>
-                    {this.state.user.address.address1}
-                    <div>{`${this.state.user.address.city}, ${
-                      this.state.user.address.state
-                    } ${this.state.user.address.zipCode}`}</div>
-                  </p>
+                  {this.state.user.address.address1}
+                  <div>{`${this.state.user.address.city}, ${
+                    this.state.user.address.state
+                  } ${this.state.user.address.zipCode}`}</div>
                 </Grid.Row>
               ) : null}
 

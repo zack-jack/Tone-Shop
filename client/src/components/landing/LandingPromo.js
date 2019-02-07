@@ -15,7 +15,9 @@ const LandingPromo = () => {
       </Header>
       <p>{`Now through ${promo.endDate}.`}</p>
       <Link to="/browse">
-        <Button color="red">Shop Now</Button>
+        <Button color="red" onClick={() => window.scrollTo(0, 0)}>
+          Shop Now
+        </Button>
       </Link>
     </div>
   );
