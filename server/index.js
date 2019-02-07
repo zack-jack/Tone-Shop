@@ -4,10 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-// App setup
 const app = express();
 
-// Database setup
 const db = process.env.MONGO_MLAB_URI;
 
 mongoose
@@ -25,7 +23,7 @@ app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
 app.use('/product', require('./routes/product'));
 
-// Server setup
+// Server
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
