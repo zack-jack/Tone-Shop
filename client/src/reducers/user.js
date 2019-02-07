@@ -3,12 +3,15 @@ import {
   UPDATE_USER_ADDRESS,
   ADD_TO_CART,
   UPDATE_CART,
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  ADD_ORDER_TO_HISTORY,
+  GET_USER_ORDER_HISTORY
 } from '../actions/types';
 
 const INITIAL_STATE = {
   data: {},
-  cart: []
+  cart: [],
+  orders: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -37,6 +40,16 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cart: action.payload
+      };
+    case ADD_ORDER_TO_HISTORY:
+      return {
+        ...state,
+        orders: action.payload
+      };
+    case GET_USER_ORDER_HISTORY:
+      return {
+        ...state,
+        orders: action.payload
       };
     default:
       return state;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Grid, Form, Header, Message, Button } from 'semantic-ui-react';
+import { Container, Form, Header, Message, Button } from 'semantic-ui-react';
 
 import { updateUserAddress } from '../../actions/user';
 
@@ -114,89 +114,91 @@ class EditAccount extends Component {
     } = this.state;
 
     return (
-      <Grid columns={2} padded>
-        <Grid.Column style={{ maxWidth: 600 }}>
-          <Header as="h2">Edit Account</Header>
-          <Form size="large" onSubmit={this.handleSubmit}>
-            <Form.Input
-              fluid
-              name="firstName"
-              type="text"
-              label="First Name"
-              value={firstName}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="lastName"
-              type="text"
-              label="Last Name"
-              value={lastName}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="address1"
-              type="text"
-              label="Address Line 1"
-              value={address1}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="address2"
-              type="text"
-              label="Address Line 2"
-              value={address2}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="city"
-              type="text"
-              label="City"
-              value={city}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="state"
-              type="text"
-              label="State"
-              value={state}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              fluid
-              name="zipCode"
-              type="number"
-              label="Zip Code"
-              value={zipCode}
-              onChange={this.handleChange}
-            />
+      <Container fluid className="edit-account">
+        <Header as="h2">Edit Account</Header>
+        <Form
+          size="large"
+          className="edit-account__form"
+          onSubmit={this.handleSubmit}
+        >
+          <Form.Input
+            fluid
+            name="firstName"
+            type="text"
+            label="First Name"
+            value={firstName}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="lastName"
+            type="text"
+            label="Last Name"
+            value={lastName}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="address1"
+            type="text"
+            label="Address Line 1"
+            value={address1}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="address2"
+            type="text"
+            label="Address Line 2"
+            value={address2}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="city"
+            type="text"
+            label="City"
+            value={city}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="state"
+            type="text"
+            label="State"
+            value={state}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            name="zipCode"
+            type="number"
+            label="Zip Code"
+            value={zipCode}
+            onChange={this.handleChange}
+          />
 
-            <Button
-              className={isSubmitting ? 'loading' : ''}
-              color="red"
-              disabled={isSubmitting}
-              size="large"
-            >
-              {this.state.currentUser !== null && this.state.currentUser.address
-                ? 'Update Address'
-                : 'Add Address'}
-            </Button>
+          <Button
+            className={isSubmitting ? 'loading' : ''}
+            color="red"
+            disabled={isSubmitting}
+            size="large"
+          >
+            {this.state.currentUser !== null && this.state.currentUser.address
+              ? 'Update Address'
+              : 'Add Address'}
+          </Button>
 
-            <Button
-              size="large"
-              onClick={() => this.props.history.push('/account')}
-            >
-              Cancel
-            </Button>
-          </Form>
+          <Button
+            size="large"
+            onClick={() => this.props.history.push('/account')}
+          >
+            Cancel
+          </Button>
+        </Form>
 
-          {this.renderMessage()}
-        </Grid.Column>
-      </Grid>
+        {this.renderMessage()}
+      </Container>
     );
   }
 }

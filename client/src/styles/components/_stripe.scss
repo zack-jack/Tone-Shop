@@ -1,0 +1,31 @@
+.StripeCheckout {
+  background: none !important;
+  background-color: #db2828 !important;
+  box-shadow: 0 0 0 0 rgba(34, 36, 38, 0.15) inset !important;
+  padding: 0.78571429em 1.5em 0.78571429em !important;
+  transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease,
+    box-shadow 0.1s ease, background 0.1s ease !important;
+
+  & > span {
+    background-image: none !important;
+    border-radius: 0.28571429rem !important;
+    box-shadow: none !important;
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+    font-size: 1rem !important;
+    height: 1rem !important;
+    line-height: 1em !important;
+  }
+
+  &:hover {
+    background-color: #d01919 !important;
+  }
+
+  &:active {
+    background-color: #b21e1e !important;
+  }
+
+  &:focus {
+    background-color: #ca1010 !important;
+    outline: none !important;
+  }
+}

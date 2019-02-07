@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   Container,
   Header,
@@ -7,13 +9,16 @@ import {
   Grid,
   Image,
   Form,
-  Button
+  Button,
+  Divider
 } from 'semantic-ui-react';
 
 import { updateCart, removeFromCart } from '../../actions/user';
+import CheckoutForm from './Checkout';
 
 class Cart extends Component {
   state = {
+    auth: this.props.auth,
     cart: this.props.cart,
     quantities: []
   };
@@ -25,12 +30,12 @@ class Cart extends Component {
     this.setState({ quantities });
   }
 
-  componentDidUpdate(prevProps, nextProps) {
-    console.log(prevProps, nextProps);
-  }
-
   componentWillReceiveProps(nextProps) {
-    this.setState({ cart: nextProps.cart });
+    this.setState({ cart: nextProps.cart }, () => {
+      const newQuantities = this.state.cart.map(item => item.quantity);
+
+      this.setState({ quantities: newQuantities });
+    });
   }
 
   onQuantityChange = (e, { name, value }) => {
@@ -51,10 +56,29 @@ class Cart extends Component {
 
   updateQuantity = e => {
     this.props.updateCart(this.state.cart, this.state.quantities);
+  };
 
-    const newQuantities = this.state.cart.map(item => item.quantity);
+  getCartTotal = () => {
+    let total;
 
-    this.setState({ quantities: newQuantities });
+    if (this.state.cart.length > 0) {
+      const prices = this.state.cart.map(
+        item => item.product.price * item.quantity
+      );
+      total = prices.reduce((acc, current) => acc + current);
+    } else {
+      total = 0;
+    }
+
+    return total;
+  };
+
+  handleCheckout = () => {
+    if (this.state.auth) {
+      this.props.history.push('/checkout');
+    } else {
+      this.props.history.push('/signin');
+    }
   };
 
   renderCartItems = () =>
@@ -71,7 +95,10 @@ class Cart extends Component {
                 ${(item.product.price.toFixed(2) * item.quantity).toFixed(2)}
               </p>
 
-              <Form className="cart-page__quantity">
+              <Form
+                className="cart-page__quantity"
+                onSubmit={this.updateQuantity}
+              >
                 <Form.Input
                   name={i}
                   size="mini"
@@ -80,7 +107,7 @@ class Cart extends Component {
                   style={{ maxWidth: '4rem' }}
                   onChange={this.onQuantityChange}
                 />
-                <Form.Button basic size="tiny" onClick={this.updateQuantity}>
+                <Form.Button basic size="tiny">
                   Update Quantity
                 </Form.Button>
               </Form>
@@ -103,7 +130,24 @@ class Cart extends Component {
     return (
       <Container fluid className="cart-page">
         <Header as="h2">Cart</Header>
+        {this.state.cart.length === 0 ? (
+          <>
+            <Divider hidden />
+            <p>Cart is empty.</p>
+            <Divider hidden />
+          </>
+        ) : null}
         {this.renderCartItems()}
+        <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
+        <CheckoutForm />
+        {/* <Button
+          color="red"
+          disabled={!this.state.cart.length > 0}
+          onClick={this.handleCheckout}
+        >
+          <Icon name="check circle outline" />
+          Checkout
+        </Button> */}
       </Container>
     );
   }
@@ -111,11 +155,15 @@ class Cart extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth.authenticated,
     cart: state.user.cart
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { updateCart, removeFromCart }
+export default compose(
+  connect(
+    mapStateToProps,
+    { updateCart, removeFromCart }
+  ),
+  withRouter
 )(Cart);

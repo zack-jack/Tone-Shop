@@ -7,12 +7,14 @@
 @import './layout/account';
 @import './layout/browse';
 @import './layout/cart';
+@import './layout/checkout';
 @import './layout/header';
 @import './layout/landing';
 @import './layout/footer';
 
 /* COMPONENT STYLES
 ========================================== */
+@import './components/edit-account';
 @import './components/filters';
 @import './components/not-found';
 @import './components/page-container';
@@ -22,3 +24,5 @@
 @import './components/signin';
 @import './components/signup';
 @import './components/slider';
+@import './components/stripe';
+@import './components/thanks';

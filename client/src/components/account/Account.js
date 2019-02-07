@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Container, Grid, Header, Button } from 'semantic-ui-react';
+import { Container, Grid, Header, Button, Divider } from 'semantic-ui-react';
 
 import requireAuth from '../auth/requireAuth';
 import { signOut } from '../../actions/auth';
 import { setCurrentUser } from '../../actions/user';
-import OrderHistoryTable from './OrderHistoryTable';
+import Orders from './Orders';
 
 class Account extends Component {
   state = {
@@ -16,6 +16,10 @@ class Account extends Component {
 
   componentDidMount() {
     this.props.setCurrentUser();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ user: nextProps.user });
   }
 
   render() {
@@ -33,10 +37,10 @@ class Account extends Component {
           <Grid.Row>
             <Grid.Column width={3}>
               <Grid.Row className="account__user-name">
-                <Header as="h3" dividing>
-                  {`${firstName} ${lastName}`}
-                </Header>
+                <Header as="h3">{`${firstName} ${lastName}`}</Header>
               </Grid.Row>
+
+              <Divider hidden />
 
               <Grid.Row className="account__user-email">
                 <Header as="h4">Email Address</Header>
@@ -81,10 +85,7 @@ class Account extends Component {
 
             <Grid.Column width={13}>
               <Grid.Row>
-                <Header as="h3" dividing>
-                  Order History
-                </Header>
-                <OrderHistoryTable />
+                <Orders />
               </Grid.Row>
             </Grid.Column>
           </Grid.Row>

@@ -31,6 +31,10 @@ const userSchema = new Schema({
   address: {
     type: Object,
     default: {}
+  },
+  orderHistory: {
+    type: Array,
+    default: []
   }
 });
 

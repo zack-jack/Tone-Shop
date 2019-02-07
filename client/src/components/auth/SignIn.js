@@ -17,6 +17,7 @@ import { setCurrentUser } from '../../actions/user';
 
 class SignIn extends Component {
   state = {
+    cart: this.props.cart,
     email: '',
     password: '',
     formData: {
@@ -66,8 +67,13 @@ class SignIn extends Component {
           .then(() => {
             // Set current user in redux
             this.props.setCurrentUser().then(() => {
-              // Redirect to user account page
-              this.props.history.push('/account');
+              if (this.state.cart.length > 0) {
+                // Redirect user to shopping cart
+                this.props.history.push('/cart');
+              } else {
+                // Redirect to user account page
+                this.props.history.push('/account');
+              }
             });
 
             setTimeout(() => {
@@ -168,6 +174,7 @@ class SignIn extends Component {
 
 const mapStateToProps = state => {
   return {
+    cart: state.user.cart,
     errors: state.auth.errors
   };
 };

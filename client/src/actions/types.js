@@ -8,6 +8,8 @@ export const UPDATE_USER_ADDRESS = 'update_user_address';
 export const ADD_TO_CART = 'add_to_cart';
 export const UPDATE_CART = 'update_cart';
 export const REMOVE_FROM_CART = 'remove_from_cart';
+export const ADD_ORDER_TO_HISTORY = 'add_order_to_history';
+export const GET_USER_ORDER_HISTORY = 'get_user_order_history';
 
 // Product
 export const GET_ALL_PRODUCTS = 'get_all_products';

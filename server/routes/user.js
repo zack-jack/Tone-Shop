@@ -50,7 +50,13 @@ router.post('/login', authenticate, auth.login);
 // Get currently authenticated user's data
 router.get('/current', user.getCurrentUser);
 
-// Update current user
-router.post('/update', user.updateUser);
+// Update current user address
+router.post('/update', user.updateUserAddress);
+
+// Add new order to user history
+router.post('/order/:id', user.addOrderToHistory);
+
+// Get all orders for user
+router.get('/orders', user.getUserOrderHistory);
 
 module.exports = router;

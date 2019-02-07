@@ -5,7 +5,9 @@ import {
   UPDATE_USER_ADDRESS,
   ADD_TO_CART,
   UPDATE_CART,
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  ADD_ORDER_TO_HISTORY,
+  GET_USER_ORDER_HISTORY
 } from './types';
 
 export const setCurrentUser = () => async dispatch => {
@@ -128,6 +130,63 @@ export const removeFromCart = (idToRemove, prevCart) => async dispatch => {
 
     // Dispatch updated cart to redux store user cart state
     dispatch({ type: REMOVE_FROM_CART, payload: newCart });
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const addOrderToHistory = (
+  user,
+  addresses,
+  payment,
+  cart,
+  orders
+) => async dispatch => {
+  try {
+    const orderNumber = payment.created
+      .toString()
+      .concat(Math.floor(Math.random() * 100).toString());
+    const prices = cart.map(item => item.product.price * item.quantity);
+    const total = prices.reduce((acc, current) => acc + current);
+    const order = { orderNumber, user, addresses, payment, cart, total };
+
+    await axios.post(`/user/order/${orderNumber}`, order);
+
+    let newOrders = [];
+
+    if (orders.length > 0) {
+      newOrders = orders.concat(order);
+    } else {
+      newOrders = [order];
+    }
+
+    dispatch({ type: ADD_ORDER_TO_HISTORY, payload: newOrders });
+
+    return order;
+  } catch (err) {
+    if (err) {
+      return err;
+    }
+  }
+};
+
+export const getUserOrderHistory = () => async dispatch => {
+  try {
+    const orders = await axios
+      .get('/user/orders', {
+        headers: {
+          authorization: localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+        // Return orders array
+        return res.data;
+      })
+      .catch(err => console.log(err));
+
+    dispatch({ type: GET_USER_ORDER_HISTORY, payload: orders });
   } catch (err) {
     if (err) {
       return err;
