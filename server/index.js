@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const path = require('path');
 
 const app = express();
 
@@ -22,6 +23,15 @@ app.use(morgan('combined'));
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
 app.use('/product', require('./routes/product'));
+
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React frontend app build folder
+  app.use(express.static('../client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '../client/build/index.html'));
+  });
+}
 
 // Server
 const port = process.env.PORT || 5000;

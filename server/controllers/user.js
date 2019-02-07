@@ -2,13 +2,14 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user/User');
 const Order = require('../models/order/Order');
-const key = require('../config/keys');
+
+require('dotenv').config();
 
 exports.getCurrentUser = (req, res, next) => {
   const token = req.headers.authorization;
 
   // Get user id from the request auth token
-  const decoded = jwt.verify(token, key.tokenSecret);
+  const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
   const userId = decoded.sub;
 
   // Find user in database that matches the request user id
@@ -85,7 +86,7 @@ exports.getUserOrderHistory = (req, res, next) => {
   const token = req.headers.authorization;
 
   // Get user id from the request auth token
-  const decoded = jwt.verify(token, key.tokenSecret);
+  const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
   const userId = decoded.sub;
 
   // Find user in database that matches the request user id

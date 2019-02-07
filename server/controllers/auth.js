@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user/User');
-const key = require('../config/keys');
+
+require('dotenv').config();
 
 // Setup token
 const tokenForUser = user => {
   const timestamp = new Date().getTime();
   const payload = { sub: user.id, iat: timestamp };
 
-  return jwt.sign(payload, key.tokenSecret, { expiresIn: 72000 });
+  return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: 72000 });
 };
 
 // Register route handling
