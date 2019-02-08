@@ -20,7 +20,6 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 
 // Routes
-app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
 app.use('/product', require('./routes/product'));
 
