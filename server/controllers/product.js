@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Body = require('../models/product/Body');
 const Brand = require('../models/product/Brand');
 const Pickup = require('../models/product/Pickup');
-const Product = require('../models/product/product');
+const Product = require('../models/product/Product');
 const Wood = require('../models/product/Wood');
 
 // Add new body type route handling
