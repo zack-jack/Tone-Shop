@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 import ProductCard from '../ProductCard';
 
@@ -18,19 +18,21 @@ class ProductsGrid extends Component {
     ) : (
       products &&
       products.map(product => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          products={products.allProducts}
-        />
+        <Grid.Column tablet={14} computer={6} largeScreen={5} widescreen={5}>
+          <ProductCard
+            key={product._id}
+            product={product}
+            products={products.allProducts}
+          />
+        </Grid.Column>
       ))
     );
 
   render() {
     return (
-      <Card.Group itemsPerRow={3}>
+      <Grid columns={3} className="product__grid">
         {this.renderProducts(this.state.products)}
-      </Card.Group>
+      </Grid>
     );
   }
 }

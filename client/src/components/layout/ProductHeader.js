@@ -40,6 +40,7 @@ class ProductHeader extends Component {
           as={Link}
           to="/browse/new"
           onClick={this.handleMenuItemClick}
+          className="product-header__link"
         >
           New Arrivals
         </Menu.Item>
@@ -48,11 +49,17 @@ class ProductHeader extends Component {
           as={Link}
           to="/browse/bestsellers"
           onClick={this.handleMenuItemClick}
+          className="product-header__link"
         >
           Best Sellers
         </Menu.Item>
 
-        <Menu.Item as={Link} to="/browse" onClick={this.handleMenuItemClick}>
+        <Menu.Item
+          as={Link}
+          to="/browse"
+          onClick={this.handleMenuItemClick}
+          className="product-header__link"
+        >
           Browse All Guitars
         </Menu.Item>
       </Menu>

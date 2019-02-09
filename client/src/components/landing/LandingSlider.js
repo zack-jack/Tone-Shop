@@ -8,7 +8,7 @@ const LandingSlider = props => {
     {
       img: '/images/landing/Landing-Slide-Players.jpg',
       heading: 'Just announced at NAMM',
-      subheading: 'New Fender American Performer Line',
+      subheading: 'New Fender American Lineup',
       buttonText: 'Shop Fender',
       id: '5c1183dfa0d7bd0c34682239'
     },
@@ -21,8 +21,8 @@ const LandingSlider = props => {
     },
     {
       img: '/images/landing/Landing-Slide-Black-Falcon.jpg',
-      heading: 'Modern appointments. Classic Vibe.',
-      subheading: 'Gretsch G6136T Players Edition Black Falcon',
+      heading: 'Classic Falcon Tone',
+      subheading: 'Gretsch G6136T Black Falcon',
       buttonText: 'Shop Gretsch',
       id: '5c11898a7d5e6e40e4986985'
     }
@@ -55,10 +55,10 @@ const LandingSlider = props => {
 
           {i === 1 ? (
             <div className={`slider__actions slider__actions--${i + 1}`}>
-              <Header inverted as="h2">
+              <Header as="h2" className="slider__heading--2">
                 {slide.heading}
               </Header>
-              <Header inverted as="h3">
+              <Header as="h3" className="slider__subheading--2">
                 {slide.subheading}
               </Header>
               <Button color="red" id={slide.id} onClick={handleButtonClick}>
@@ -67,8 +67,12 @@ const LandingSlider = props => {
             </div>
           ) : (
             <div className={`slider__actions slider__actions--${i + 1}`}>
-              <Header as="h2">{slide.heading}</Header>
-              <Header as="h3">{slide.subheading}</Header>
+              <Header as="h2" className="slider__heading">
+                {slide.heading}
+              </Header>
+              <Header as="h3" className="slider__subheading">
+                {slide.subheading}
+              </Header>
               <Button color="red" id={slide.id} onClick={handleButtonClick}>
                 {slide.buttonText}
               </Button>

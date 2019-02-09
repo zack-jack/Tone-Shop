@@ -117,7 +117,7 @@ class Header extends Component {
           {item === 'Cart' ? (
             <span>
               <Icon.Group style={{ marginRight: '0.5rem' }}>
-                <Icon name="cart" size="large" />
+                <Icon name="cart" />
                 {this.state.cart && this.state.cart.length > 0 ? (
                   <Icon color="red" corner="top right" name="circle" />
                 ) : null}
@@ -142,7 +142,7 @@ class Header extends Component {
           <Icon name="headphones" className="header__logo-icon" /> Shop
         </Link>
 
-        <div className="user-header__links">
+        <div className="user-header__nav">
           <Menu.Item>
             <Form onSubmit={this.handleSearchSubmit}>
               <Form.Input
@@ -154,7 +154,7 @@ class Header extends Component {
               />
             </Form>
           </Menu.Item>
-          {this.renderNavItems()}
+          <div className="user-header__links">{this.renderNavItems()}</div>
         </div>
       </Menu>
     );

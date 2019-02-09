@@ -1,16 +1,33 @@
 .footer {
   display: flex;
   justify-content: space-between;
-  padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+  padding: 0 calc(((100vw - 1440px) / 2) + 4rem);
+
+  @include desktop {
+    padding: 0 4rem;
+  }
+
+  @include tablet {
+    text-align: center;
+  }
 
   &__nav {
     padding: 4rem 0;
+
+    @include tablet {
+      padding: 0;
+      padding-top: 4rem;
+    }
   }
 
   &__social-container {
     align-items: flex-end;
     display: flex;
     flex-direction: column;
+
+    @include tablet {
+      align-items: center;
+    }
   }
 
   &__social {

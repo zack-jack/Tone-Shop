@@ -1,3 +1,8 @@
 .browse {
   padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+  padding-left: 3rem;
+
+  @include tablet {
+    padding-right: 3rem;
+  }
 }

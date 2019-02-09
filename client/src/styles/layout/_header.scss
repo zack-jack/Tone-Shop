@@ -1,6 +1,10 @@
 .header {
   margin-bottom: 6rem;
 
+  @include tablet-large {
+    margin-bottom: 2rem;
+  }
+
   &__logo {
     color: black;
     font-size: 1.5rem;
@@ -14,6 +18,12 @@
     &:visited {
       color: black;
     }
+
+    @include tablet {
+      padding: 0.5rem 0;
+      padding-left: 0;
+      width: auto;
+    }
   }
 
   &__logo-icon {
@@ -26,18 +36,46 @@
   display: flex;
   justify-content: space-between;
   padding: 0.5rem calc((100vw - 1440px) / 2);
+  padding-left: 2rem;
+  padding-right: 3rem;
 
-  &__links {
+  @include tablet {
+    flex-direction: column;
+    padding: 0.5rem 0 0 0;
+    justify-content: center;
+  }
+
+  &__nav {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+
+    @include tablet {
+      flex-direction: column-reverse;
+      justify-content: center;
+    }
+  }
+
+  &__links {
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 }
 
 .product-header {
   padding: 0 calc((100vw - 1440px) / 2);
+  padding-left: 2rem;
 
-  &__dropdown {
-    height: 4rem;
+  @include tablet {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    text-align: center;
+  }
+
+  &__link {
   }
 }

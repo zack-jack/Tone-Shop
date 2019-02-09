@@ -31,8 +31,6 @@ import NotFound from './components/common/NotFound';
 
 import { store, persistor } from './store/configureStore';
 
-require('dotenv').config();
-
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={<Loading />} persistor={persistor}>
@@ -46,7 +44,7 @@ ReactDOM.render(
             <Route
               path="/cart"
               render={() => (
-                <Cart stripeKey={process.env.REACT_APP_STRIPE_KEY} />
+                <Cart stripeKey="pk_test_A0prpPMb2dm9o7Ku4wNZrFBp" />
               )}
             />
             <Route path="/checkout" render={() => <Checkout />} />

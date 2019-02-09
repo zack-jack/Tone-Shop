@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Card } from 'semantic-ui-react';
+import { Container, Header, Grid } from 'semantic-ui-react';
 
 import ProductCard from './ProductCard';
 
@@ -14,7 +14,9 @@ class BestSellers extends Component {
 
   renderProductCards = ({ bestSellers }) =>
     bestSellers.map(product => (
-      <ProductCard key={product._id} product={product} />
+      <Grid.Column key={product._id} tablet={5}>
+        <ProductCard product={product} />
+      </Grid.Column>
     ));
 
   render() {
@@ -27,11 +29,11 @@ class BestSellers extends Component {
         >
           Best Sellers
         </Header>
-        <Card.Group centered>
+        <Grid columns={3} stackable>
           {this.props.products
             ? this.renderProductCards(this.props.products)
             : null}
-        </Card.Group>
+        </Grid>
       </Container>
     );
   }

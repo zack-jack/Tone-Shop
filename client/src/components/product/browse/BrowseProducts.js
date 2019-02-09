@@ -192,6 +192,8 @@ class BrowseProducts extends Component {
         ? targetPageNum * this.state.itemsPerPage
         : targetPageNum * this.state.itemsPerPage;
 
+    window.scrollTo(0, 0);
+
     // Split the group of products by number of items to display per page
     // If there are filters applied, use filtered products
     if (window.location.href.includes('new')) {
@@ -561,13 +563,24 @@ class BrowseProducts extends Component {
     return (
       <Container fluid className="browse">
         <Header as="h5">Browse Products</Header>
-        <Grid columns={2}>
-          <Grid.Column width={4} className="filters__container">
+        <Grid columns={2} stackable>
+          <Grid.Column
+            tablet={6}
+            computer={4}
+            largeScreen={3}
+            widescreen={3}
+            className="filters__container"
+          >
             <p>Filter by:</p>
             <Filters handleChecked={this.handleChecked} />
           </Grid.Column>
 
-          <Grid.Column>
+          <Grid.Column
+            tablet={9}
+            computer={11}
+            largeScreen={11}
+            widescreen={11}
+          >
             <ProductsGrid products={this.state.productsGrid} />
             <Divider hidden />
             <PaginationMenu

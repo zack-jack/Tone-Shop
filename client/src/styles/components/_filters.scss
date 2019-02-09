@@ -1,5 +1,9 @@
 .filters {
   &__container {
-    padding-right: 6rem !important;
+    padding-right: 3rem !important;
+
+    @include tablet-large {
+      padding-right: 2rem !important;
+    }
   }
 }

@@ -67,33 +67,38 @@ class ProductCard extends Component {
 
   render() {
     return (
-      <Card>
+      <Card centered className="product-card">
         <Card.Content textAlign="center" _id={this.props.product._id}>
           <Card.Header className="product-card__header">
             {this.props.product.name}
           </Card.Header>
 
-          <Image src={this.props.product.images[0]} />
+          <Image
+            src={this.props.product.images[0]}
+            className="product-card__image"
+          />
 
           <Header>{`$ ${this.props.product.price.toFixed(2)}`}</Header>
 
-          <Button
-            fluid
-            color="red"
-            className="product-card__button"
-            onClick={this.handleAddToCart}
-          >
-            Add to Cart
-          </Button>
-          <Button
-            fluid
-            basic
-            color="red"
-            className="product-card__button"
-            onClick={this.handleViewItem}
-          >
-            View Item
-          </Button>
+          <div className="product-card__actions">
+            <Button
+              fluid
+              color="red"
+              className="product-card__button"
+              onClick={this.handleAddToCart}
+            >
+              Add to Cart
+            </Button>
+            <Button
+              fluid
+              basic
+              color="red"
+              className="product-card__button"
+              onClick={this.handleViewItem}
+            >
+              View Item
+            </Button>
+          </div>
         </Card.Content>
       </Card>
     );

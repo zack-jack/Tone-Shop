@@ -1,6 +1,14 @@
 .landing {
   &__promo {
     margin: 10rem 0 8rem 0;
+
+    @include tablet-large {
+      margin: 6rem 0;
+    }
+
+    @include tablet {
+      margin: 6rem 0 4rem 0;
+    }
   }
 
   &__promo,
@@ -11,6 +19,26 @@
     flex-direction: column;
     justify-content: center;
     padding: 2rem 0;
+    text-align: center;
+  }
+
+  &__benefits {
+    margin: 0 auto !important;
+    max-width: 72%;
+
+    @include desktop-large {
+      max-width: 58%;
+    }
+
+    @include desktop {
+      max-width: 100%;
+    }
+  }
+
+  &__benefit {
+    @include tablet-large {
+      padding: 0 !important;
+    }
   }
 
   &__benefits-text {
@@ -19,15 +47,38 @@
 
   &__featured {
     padding: 4rem 0;
+
+    @include tablet {
+      padding: 2rem 0;
+    }
   }
 
   &__best-sellers,
   &__new-arrivals {
     margin: 4rem 0;
+
+    @include tablet {
+      padding: 0 25vw;
+    }
+
+    @include phone {
+      padding: 0 15vw;
+    }
+
+    @include phone-small {
+      padding: 0 5vw;
+    }
   }
 
   &__best-sellers-heading,
   &__new-arrivals-heading {
     margin-bottom: 3rem !important;
+  }
+
+  &__banner {
+    @include tablet-large {
+      padding: 2rem 20%;
+      text-align: center;
+    }
   }
 }

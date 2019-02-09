@@ -1,16 +1,44 @@
 .product-card {
+  width: 100% !important;
+
   &__header {
     height: 5.25rem;
     margin-bottom: 0.5rem;
     padding: 0 1.5rem;
+
+    @include tablet-large {
+      height: 6.25rem;
+    }
+  }
+
+  &__image {
+    margin-bottom: 1rem;
   }
 
   &__meta {
     margin-bottom: 1rem;
   }
 
+  &__actions {
+    margin: 0 auto;
+    width: 85% !important;
+
+    @include tablet {
+      width: 65% !important;
+    }
+
+    @include phone {
+      width: 80% !important;
+    }
+  }
+
   &__button {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.7rem !important;
+
+    @include tablet {
+      height: 3.25em !important;
+      margin-bottom: 0.85rem !important;
+    }
 
     &:last-of-type {
       margin-bottom: 0 !important;

@@ -6,4 +6,10 @@
   &__description {
     line-height: 1.75;
   }
+
+  &__grid {
+    @include tablet {
+      justify-content: center;
+    }
+  }
 }
