@@ -3,6 +3,13 @@
   padding-left: 3rem;
 
   @include tablet {
-    padding-right: 3rem;
+    text-align: center;
+    padding: 0 3rem;
+  }
+
+  &__filters-heading {
+    @include tablet {
+      text-align: center;
+    }
   }
 }

@@ -600,7 +600,7 @@ class BrowseProducts extends Component {
             widescreen={3}
             className="filters__container"
           >
-            <p>Filter by:</p>
+            <p className="browse__filters-heading">Filter by:</p>
             <Filters handleChecked={this.handleChecked} />
           </Grid.Column>
 

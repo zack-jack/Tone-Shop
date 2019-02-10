@@ -1,9 +1,64 @@
 .cart-page {
   min-height: 45vh;
-  padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+  padding: 0 calc(((100vw - 1440px) / 2) + 4rem);
+
+  @include desktop {
+    padding: 0 4rem;
+  }
+
+  &__header {
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__image {
+    @include tablet {
+      margin: 0 auto;
+      width: 60%;
+    }
+  }
+
+  &__item-name,
+  &__item-price {
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__empty {
+    @include tablet {
+      text-align: center;
+    }
+  }
 
   &__quantity {
     display: flex;
     margin-bottom: 0.5rem;
+
+    @include tablet {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__item-remove {
+    @include tablet {
+      display: flex !important;
+      margin: 0 auto !important;
+    }
+  }
+
+  &__total {
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__content {
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

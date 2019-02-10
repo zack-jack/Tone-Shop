@@ -86,12 +86,22 @@ class Cart extends Component {
       return (
         <Segment key={item.product._id}>
           <Grid>
-            <Grid.Column width={3}>
-              <Image src={item.product.images[0]} />
+            <Grid.Column mobile={16} tablet={5} computer={3}>
+              <Image
+                src={item.product.images[0]}
+                className="cart-page__image"
+              />
             </Grid.Column>
-            <Grid.Column width={8}>
-              <Header>{item.product.name}</Header>
-              <p>
+            <Grid.Column
+              mobile={16}
+              tablet={6}
+              computer={8}
+              className="cart-page__item-details"
+            >
+              <Header className="cart-page__item-name">
+                {item.product.name}
+              </Header>
+              <p className="cart-page__item-price">
                 ${(item.product.price.toFixed(2) * item.quantity).toFixed(2)}
               </p>
 
@@ -117,6 +127,7 @@ class Cart extends Component {
                 _id={item.product._id}
                 size="tiny"
                 onClick={this.removeItem}
+                className="cart-page__item-remove"
               >
                 Remove Item
               </Button>
@@ -129,20 +140,29 @@ class Cart extends Component {
   render() {
     return (
       <Container fluid className="cart-page">
-        <Header as="h2">Cart</Header>
+        <Header as="h2" className="cart-page__header">
+          Cart
+        </Header>
         {this.state.cart.length === 0 ? (
           <>
             <Divider hidden />
-            <p>Cart is empty.</p>
+            <p className="cart-page__empty">Cart is empty.</p>
             <Divider hidden />
-            <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
+            <Header className="cart-page__total">
+              Total: ${this.getCartTotal().toFixed(2)}
+            </Header>
           </>
         ) : (
-          <>
+          <div className="cart-page__content">
             {this.renderCartItems()}
-            <Header>Total: ${this.getCartTotal().toFixed(2)}</Header>
-            <Checkout stripeKey={this.props.stripeKey} />
-          </>
+            <Header className="cart-page__total">
+              Total: ${this.getCartTotal().toFixed(2)}
+            </Header>
+            <Checkout
+              stripeKey={this.props.stripeKey}
+              className="cart-page__stripe-button"
+            />
+          </div>
         )}
       </Container>
     );

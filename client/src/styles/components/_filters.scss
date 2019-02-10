@@ -1,6 +1,7 @@
 .filters {
   &__container {
     padding-right: 3rem !important;
+    text-align: left;
 
     @include tablet-large {
       padding-right: 2rem !important;

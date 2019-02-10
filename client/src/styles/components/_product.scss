@@ -12,6 +12,11 @@
     }
   }
 
+  &__grid {
+    display: flex;
+    justify-content: center;
+  }
+
   &__row {
     margin-bottom: 6rem;
 
