@@ -13,11 +13,22 @@ import {
 } from 'semantic-ui-react';
 
 import { addToCart } from '../../actions/user';
+import {
+  getBrands,
+  getBodyTypes,
+  getWoodTypes,
+  getPickupTypes
+} from '../../actions/products';
+import Loading from '../common/Loading';
 
 class Product extends Component {
   state = {
     allProducts: this.props.allProducts,
     currentProduct: this.props.currentProduct,
+    brand: '',
+    bodyType: '',
+    woods: {},
+    pickups: {},
     cart: this.props.cart,
     sliderSettings: {
       dots: true,
@@ -26,11 +37,25 @@ class Product extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: true
-    }
+    },
+    isLoading: false
   };
 
   componentDidMount() {
     window.scrollTo(0, 0);
+
+    this.setState({ isLoading: true });
+
+    this.setState({ currentProduct: this.props.currentProduct }, () => {
+      this.getBrandFromId(this.state.currentProduct.brand);
+      this.getBodyTypeFromId(this.state.currentProduct.body);
+      this.getWoodsFromId(this.state.currentProduct.wood);
+      this.getPickupsFromId(this.state.currentProduct.pickups);
+
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 250);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,19 +103,37 @@ class Product extends Component {
   };
 
   getBrandFromId = brandId => {
-    return this.props.brands.filter(brand => brand._id === brandId)[0].name;
+    return this.props.getBrands().then(() => {
+      this.setState({
+        brand: this.props.brands.filter(brand => brand._id === brandId)[0].name
+      });
+    });
   };
 
   getBodyTypeFromId = bodyId => {
-    return this.props.bodies.filter(body => body._id === bodyId)[0].name;
+    return this.props.getBodyTypes().then(() => {
+      this.setState({
+        bodyType: this.props.bodies.filter(body => body._id === bodyId)[0].name
+      });
+    });
   };
 
   getWoodsFromId = woodId => {
-    return this.props.woods.filter(wood => wood._id === woodId)[0];
+    return this.props.getWoodTypes().then(() => {
+      this.setState({
+        woods: this.props.woods.filter(wood => wood._id === woodId)[0]
+      });
+    });
   };
 
   getPickupsFromId = pickupsId => {
-    return this.props.pickups.filter(pickup => pickup._id === pickupsId)[0];
+    return this.props.getPickupTypes().then(() => {
+      this.setState({
+        pickups: this.props.pickups.filter(
+          pickup => pickup._id === pickupsId
+        )[0]
+      });
+    });
   };
 
   renderSliderImages = () => {
@@ -99,11 +142,33 @@ class Product extends Component {
     ));
   };
 
+  renderSpecsTable = () => {
+    const specs = [
+      { name: 'Body Type', value: this.state.bodyType },
+      { name: 'Color', value: this.state.currentProduct.color },
+      { name: 'Body Material', value: this.state.woods.body },
+      { name: 'Neck Material', value: this.state.woods.neck },
+      { name: 'Fretboard Material', value: this.state.woods.fretboard },
+      { name: 'Pickups', value: this.state.pickups.type },
+      { name: 'Number of Pickups', value: this.state.pickups.number },
+      { name: 'Number of Frets', value: this.state.currentProduct.frets }
+    ];
+
+    return specs.map((spec, i) => (
+      <Table.Row key={i}>
+        <Table.Cell>{spec.name}</Table.Cell>
+        <Table.Cell>{spec.value}</Table.Cell>
+      </Table.Row>
+    ));
+  };
+
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Loading />
+    ) : (
       <Container className="product__container">
         <Header as="h2">{this.state.currentProduct.name}</Header>
-        <Header>{this.getBrandFromId(this.state.currentProduct.brand)}</Header>
+        <Header>{this.state.brand}</Header>
         <Grid>
           <Grid.Row columns={2} style={{ marginBottom: '6rem' }}>
             <Grid.Column padded="true">
@@ -145,61 +210,7 @@ class Product extends Component {
           <Grid.Row>
             <Header>Specs</Header>
             <Table celled fixed singleLine striped>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Body Type:</Table.Cell>
-                  <Table.Cell>
-                    {this.getBodyTypeFromId(this.state.currentProduct.body)}
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Color:</Table.Cell>
-                  <Table.Cell>{this.state.currentProduct.color}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Body Material:</Table.Cell>
-                  <Table.Cell>
-                    {this.getWoodsFromId(this.state.currentProduct.wood).body}
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Neck Material:</Table.Cell>
-                  <Table.Cell>
-                    {this.getWoodsFromId(this.state.currentProduct.wood).neck}
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Fretboard Material:</Table.Cell>
-                  <Table.Cell>
-                    {
-                      this.getWoodsFromId(this.state.currentProduct.wood)
-                        .fretboard
-                    }
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Pickups:</Table.Cell>
-                  <Table.Cell>
-                    {
-                      this.getPickupsFromId(this.state.currentProduct.pickups)
-                        .type
-                    }
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Number of Pickups:</Table.Cell>
-                  <Table.Cell>
-                    {
-                      this.getPickupsFromId(this.state.currentProduct.pickups)
-                        .number
-                    }
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Number of Frets:</Table.Cell>
-                  <Table.Cell>{this.state.currentProduct.frets}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
+              <Table.Body>{this.renderSpecsTable()}</Table.Body>
             </Table>
           </Grid.Row>
         </Grid>
@@ -222,5 +233,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addToCart }
+  { addToCart, getBrands, getBodyTypes, getWoodTypes, getPickupTypes }
 )(Product);

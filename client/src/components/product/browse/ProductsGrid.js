@@ -18,12 +18,14 @@ class ProductsGrid extends Component {
     ) : (
       products &&
       products.map(product => (
-        <Grid.Column tablet={14} computer={6} largeScreen={5} widescreen={5}>
-          <ProductCard
-            key={product._id}
-            product={product}
-            products={products.allProducts}
-          />
+        <Grid.Column
+          key={product._id}
+          tablet={14}
+          computer={6}
+          largeScreen={5}
+          widescreen={5}
+        >
+          <ProductCard product={product} products={products.allProducts} />
         </Grid.Column>
       ))
     );

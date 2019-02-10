@@ -34,7 +34,8 @@ class BrowseProducts extends Component {
     productsGrid: [],
     checked: [],
     filteredProducts: undefined,
-    searchResults: this.props.searchResults
+    searchResults: this.props.searchResults,
+    location: window.location.href
   };
 
   componentDidMount() {
@@ -43,12 +44,24 @@ class BrowseProducts extends Component {
 
     // URL contains brand ID to filter by
     if (window.location.href.includes('brand')) {
-      const brandId = window.location.href.match(/\/([^/]+)\/?$/)[1];
-      const checked = this.state.brands.filter(brand => brand._id === brandId);
-      const key = checked[0].name;
-      const addToCheckedState = { [key]: true };
+      if (window.location.href.includes('no-matches-found')) {
+        this.setState({ searchResults: [] }, () => {
+          this.props.setSearchResults(this.state.searchResults);
+        });
 
-      this.setState({ checked: this.state.checked.concat(addToCheckedState) });
+        this.updateDisplayGrid();
+      } else {
+        const brandId = window.location.href.match(/\/([^/]+)\/?$/)[1];
+        const checked = this.state.brands.filter(
+          brand => brand._id === brandId
+        );
+        const key = checked[0].name;
+        const addToCheckedState = { [key]: true };
+
+        this.setState({
+          checked: this.state.checked.concat(addToCheckedState)
+        });
+      }
     }
 
     // Check if redirected with a search query
@@ -65,11 +78,11 @@ class BrowseProducts extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // If filters are applied, updated the filtered products
     if (
       this.state.filteredProducts === undefined ||
       this.state.filteredProducts.length !== 0
     ) {
+      // If filters are applied, updated the filtered products
       this.updateFilteredProducts();
     }
 
@@ -91,6 +104,7 @@ class BrowseProducts extends Component {
 
     // Clear search results when filters are applied
     if (
+      this.state.searchResults &&
       this.state.searchResults.length > 0 &&
       ((this.state.checked && this.state.checked.length > 0) ||
         (this.state.filteredProducts && this.state.filteredProducts.length > 0))
@@ -109,7 +123,8 @@ class BrowseProducts extends Component {
       brands: nextProps.products.brands,
       bodies: nextProps.products.bodies,
       woods: nextProps.products.woods,
-      pickups: nextProps.products.pickups
+      pickups: nextProps.products.pickups,
+      searchResults: nextProps.searchResults
     });
 
     if (
@@ -122,6 +137,13 @@ class BrowseProducts extends Component {
     if (
       this.state.newArrivals.map(product => product._id).join(',') !==
       nextProps.products.newArrivals.map(product => product._id).join(',')
+    ) {
+      this.updateDisplayGrid();
+    }
+
+    if (
+      this.state.searchResults.map(product => product._id).join(',') !==
+      nextProps.searchResults.map(product => product._id).join(',')
     ) {
       this.updateDisplayGrid();
     }
@@ -163,6 +185,11 @@ class BrowseProducts extends Component {
       this.setState({
         productsGrid: this.state.bestSellers.slice(startIndex, endIndex),
         initialGrid: this.state.bestSellers.slice(startIndex, endIndex)
+      });
+    } else if (window.location.href.includes('no-matches-found')) {
+      this.setState({
+        productsGrid: this.state.searchResults,
+        initialGrid: this.state.searchResults
       });
     } else if (
       window.location.href.includes('results') &&
@@ -548,6 +575,8 @@ class BrowseProducts extends Component {
         return this.state.newArrivals.length;
       } else if (window.location.href.includes('bestsellers')) {
         return this.state.bestSellers.length;
+      } else if (window.location.href.includes('no-matches-found')) {
+        return this.state.searchResults.length;
       } else if (
         window.location.href.includes('results') &&
         this.state.searchResults.length > 0

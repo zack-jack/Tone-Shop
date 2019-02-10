@@ -68,7 +68,7 @@ class Header extends Component {
   handleSearchSubmit = e => {
     e.preventDefault();
 
-    const searchQuery = this.state.searchQuery.toLowerCase();
+    let searchQuery = this.state.searchQuery.toLowerCase();
 
     // Loop through array and check names against search query
     const brands = this.state.brands.filter(brand =>
@@ -95,7 +95,14 @@ class Header extends Component {
       this.props.history.push(`/browse/brand/${brands[0]._id}`);
     } else {
       // No results found
+      this.props.history.push('/browse/brand/no-matches-found');
     }
+
+    this.resetSearchInputField();
+  };
+
+  resetSearchInputField = () => {
+    this.setState({ searchQuery: '' });
   };
 
   renderNavItems = () => {
@@ -149,7 +156,7 @@ class Header extends Component {
                 action={{ icon: 'search' }}
                 placeholder="Search..."
                 name="searchQuery"
-                value={this.state.search}
+                value={this.state.searchQuery}
                 onChange={this.handleSearchInputChange}
               />
             </Form>

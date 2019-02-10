@@ -14,8 +14,8 @@ class NewArrivals extends Component {
 
   renderProductCards = ({ newArrivals }) =>
     newArrivals.map(product => (
-      <Grid.Column>
-        <ProductCard key={product._id} product={product} />
+      <Grid.Column key={product._id}>
+        <ProductCard product={product} />
       </Grid.Column>
     ));
 

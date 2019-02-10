@@ -27,7 +27,7 @@ const LandingBenefits = () => (
         textAlign="center"
         computer={5}
         largeScreen={4}
-        wideScreen={4}
+        widescreen={4}
         className="landing__benefit"
       >
         <Icon circular color="grey" name={benefit.icon} size="big" />

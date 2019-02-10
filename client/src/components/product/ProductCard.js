@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Card, Image, Header, Button } from 'semantic-ui-react';
 
 import { addToCart } from '../../actions/user';
-import { setCurrentProduct } from '../../actions/products';
+import { getAllProducts, setCurrentProduct } from '../../actions/products';
 
 class ProductCard extends Component {
   state = {
@@ -21,18 +21,20 @@ class ProductCard extends Component {
 
   handleViewItem = e => {
     // Get current product id
-    const id = e.target.parentNode.getAttribute('_id');
+    const id = e.target.parentNode.parentNode.getAttribute('_id');
 
-    // Set the current product data in redux
-    this.props.setCurrentProduct(id).then(() => {
-      // Redirect to the product id view
-      this.props.history.push(`/product/${id}`);
+    this.props.getAllProducts().then(() => {
+      // Set the current product data in redux
+      this.props.setCurrentProduct(id).then(() => {
+        // Redirect to the product id view
+        this.props.history.push(`/product/${id}`);
+      });
     });
   };
 
   handleAddToCart = e => {
     // Get the product id from click event
-    const id = e.target.parentNode.getAttribute('_id');
+    const id = e.target.parentNode.parentNode.getAttribute('_id');
 
     // Get product to add
     const productIdMatch = this.state.allProducts.filter(
@@ -115,7 +117,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { setCurrentProduct, addToCart }
+    { getAllProducts, setCurrentProduct, addToCart }
   ),
   withRouter
 )(ProductCard);
