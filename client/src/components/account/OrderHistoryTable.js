@@ -17,8 +17,8 @@ const OrderHistoryTable = ({ orders }) => {
     ));
 
   return orders && orders.length > 0 ? (
-    <Table celled fixed singleLine>
-      <Table.Header>
+    <Table celled fixed className="account__orders-table">
+      <Table.Header className="account__orders-table-header">
         <Table.Row>
           <Table.HeaderCell>Order Number</Table.HeaderCell>
           <Table.HeaderCell>Date</Table.HeaderCell>
@@ -28,10 +28,12 @@ const OrderHistoryTable = ({ orders }) => {
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>{renderOrders(orders)}</Table.Body>
+      <Table.Body className="account__orders-table-body">
+        {renderOrders(orders)}
+      </Table.Body>
     </Table>
   ) : (
-    <Table celled fixed singleLine>
+    <Table celled className="account__orders-table">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Orders</Table.HeaderCell>

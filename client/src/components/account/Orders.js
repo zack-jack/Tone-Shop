@@ -9,7 +9,8 @@ import OrderHistoryTable from './OrderHistoryTable';
 
 class Orders extends Component {
   state = {
-    orders: this.props.orders
+    orders: this.props.orders,
+    user: this.props.user
   };
 
   componentDidMount() {
@@ -17,15 +18,31 @@ class Orders extends Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (this.state.orders !== nextProps.orders) {
+    if (
+      this.state.orders !== nextProps.orders &&
+      nextProps.orders !== undefined
+    ) {
       this.setState({ orders: nextProps.orders });
+    }
+
+    if (
+      this.state.orders &&
+      this.state.user.data.orderHistory.length !== this.state.orders.length
+    ) {
+      this.setState({ orders: this.state.user.data.orderHistory });
+    }
+
+    if (this.state.orders === undefined && this.state.user.data.orderHistory) {
+      this.setState({ orders: this.state.user.data.orderHistory });
     }
   }
 
   render() {
     return (
-      <Container fluid className="page-container">
-        <Header as="h2">Order History</Header>
+      <Container fluid className="account__orders">
+        <Header as="h2" className="account__orders-heading">
+          Order History
+        </Header>
         <OrderHistoryTable orders={this.state.orders} />
       </Container>
     );
@@ -34,7 +51,8 @@ class Orders extends Component {
 
 const mapStateToProps = state => {
   return {
-    orders: state.user.orders
+    orders: state.user.orders,
+    user: state.user
   };
 };
 

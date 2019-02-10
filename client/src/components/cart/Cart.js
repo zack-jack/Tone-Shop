@@ -25,9 +25,11 @@ class Cart extends Component {
 
   componentDidMount() {
     // Set quantities state for each item
-    const quantities = this.state.cart.map(item => item.quantity);
+    if (this.state.cart.length > 0) {
+      const quantities = this.state.cart.map(item => item.quantity);
 
-    this.setState({ quantities });
+      this.setState({ quantities });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

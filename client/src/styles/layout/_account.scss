@@ -1,8 +1,38 @@
 .account {
   min-height: 45vh;
 
+  @include tablet-large {
+    padding: 2rem;
+  }
+
+  @include phone {
+    padding: 1rem;
+  }
+
+  &__heading {
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__user {
+    margin-bottom: 2rem !important;
+
+    @include tablet-large {
+      display: flex !important;
+      justify-content: space-between;
+      margin-left: 1rem;
+    }
+
+    @include tablet {
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
   &__user-name {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   &__user-email {
@@ -15,5 +45,37 @@
 
   &__edit-button {
     margin-bottom: 0.5rem !important;
+  }
+
+  &__orders {
+    padding-left: 4rem;
+
+    @include tablet-large {
+      padding: 0;
+    }
+
+    @include tablet {
+      margin-top: 2rem;
+    }
+  }
+
+  &__orders-heading {
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__orders-table {
+    @include tablet {
+      display: flex;
+      margin: 0 auto !important;
+    }
+  }
+
+  &__orders-table-header,
+  &__orders-table-body {
+    @include tablet {
+      width: 50% !important;
+    }
   }
 }

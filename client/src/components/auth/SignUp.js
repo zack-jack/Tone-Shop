@@ -116,13 +116,13 @@ class SignUp extends Component {
 
     return (
       <Container className="signup">
-        <Header as="h2">
+        <Header as="h2" className="signup__heading">
           <Icon name="user outline" />
           Create an Account
         </Header>
 
-        <Grid columns={2} padded>
-          <Grid.Column style={{ maxWidth: 600 }}>
+        <Grid columns={2} padded stackable>
+          <Grid.Column tablet={16} computer={8}>
             <Form size="large" onSubmit={this.handleSubmit}>
               <Form.Input
                 fluid

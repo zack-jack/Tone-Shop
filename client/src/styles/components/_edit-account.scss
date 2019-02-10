@@ -1,8 +1,35 @@
 .edit-account {
   min-height: 45vh;
   padding: 0 calc(((100vw - 1440px) / 2) + 1rem);
+  padding-bottom: 4rem;
+
+  @include desktop {
+    padding: 0 4rem 4rem 4rem;
+  }
+
+  @include tablet-large {
+    padding: 2rem 4rem;
+  }
+
+  @include phone {
+    padding: 2rem;
+  }
 
   &__form {
     max-width: 30rem !important;
+
+    @include tablet {
+      max-width: 100% !important;
+    }
+  }
+
+  &__button {
+    @include phone-small {
+      width: 100%;
+
+      &:last-of-type {
+        margin-top: 1rem;
+      }
+    }
   }
 }

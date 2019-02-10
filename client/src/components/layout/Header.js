@@ -42,6 +42,12 @@ class Header extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.isAuth !== this.props.authenticated) {
+      this.setState({ isAuth: this.props.authenticated });
+    }
+  }
+
   handleLogoClick = e => {
     this.props.history.push('/');
   };
@@ -171,6 +177,7 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     allProducts: state.products.allProducts,
+    authenticated: state.auth.authenticated,
     authToken: state.auth.authToken,
     brands: state.products.brands,
     cart: state.user.cart

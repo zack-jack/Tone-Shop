@@ -32,6 +32,24 @@ class EditAccount extends Component {
   componentDidMount() {
     this.setState({ currentUser: this.props.currentUser });
 
+    // Check if current user has an address saved already
+    if (
+      Object.keys(this.state.currentUser.address).length !== 0 &&
+      this.state.currentUser.address.constructor === Object
+    ) {
+      const address = this.state.currentUser.address;
+
+      this.setState({
+        firstName: address.firstName,
+        lastName: address.lastName,
+        address1: address.address1,
+        address2: address.address2,
+        city: address.city,
+        state: address.state,
+        zipCode: address.zipCode
+      });
+    }
+
     // Reset redux props for address form
     this.props.updateUserAddress(this.state.currentUser._id, {});
   }
@@ -179,7 +197,11 @@ class EditAccount extends Component {
           />
 
           <Button
-            className={isSubmitting ? 'loading' : ''}
+            className={
+              isSubmitting
+                ? 'loading edit-account__button'
+                : 'edit-account__button'
+            }
             color="red"
             disabled={isSubmitting}
             size="large"
@@ -192,6 +214,7 @@ class EditAccount extends Component {
           <Button
             size="large"
             onClick={() => this.props.history.push('/account')}
+            className="edit-account__button"
           >
             Cancel
           </Button>

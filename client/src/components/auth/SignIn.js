@@ -97,15 +97,15 @@ class SignIn extends Component {
     return (
       <Container className="signin">
         <Grid padded>
-          <Grid.Row columns={1} className="signin__heading">
-            <Header as="h2" style={{ marginBottom: '4rem' }}>
+          <Grid.Row>
+            <Header as="h2" className="signin__heading">
               <Icon name="user outline" />
               Sign In or Create an Account
             </Header>
           </Grid.Row>
 
           <Grid.Row columns={2}>
-            <Grid.Column style={{ maxWidth: 600 }}>
+            <Grid.Column tablet={16} computer={8} className="signin__form">
               <Form size="large" onSubmit={this.handleSubmit}>
                 <Form.Input
                   fluid
@@ -127,7 +127,11 @@ class SignIn extends Component {
 
                 <div className="signin__action">
                   <Button
-                    className={isSubmitting ? 'loading' : ''}
+                    className={
+                      isSubmitting
+                        ? 'loading signin__action-button'
+                        : 'signin__action-button'
+                    }
                     color="red"
                     disabled={isSubmitting}
                     size="large"
@@ -141,7 +145,9 @@ class SignIn extends Component {
                       to="/signup"
                       className="link signin__signup-arrow-link"
                     >
-                      <Button basic>Sign up →</Button>
+                      <Button basic className="signin__action-button">
+                        Sign up →
+                      </Button>
                     </Link>
                   </div>
                 </div>
@@ -153,8 +159,8 @@ class SignIn extends Component {
             </Grid.Column>
 
             <Grid.Column
+              computer={8}
               textAlign="center"
-              style={{ maxWidth: 600 }}
               className="signin__no-account"
             >
               <Header as="h3">No Account Yet?</Header>
