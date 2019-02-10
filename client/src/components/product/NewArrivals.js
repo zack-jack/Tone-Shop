@@ -14,7 +14,7 @@ class NewArrivals extends Component {
 
   renderProductCards = ({ newArrivals }) =>
     newArrivals.map(product => (
-      <Grid.Column key={product._id}>
+      <Grid.Column key={product._id} tablet={5}>
         <ProductCard product={product} />
       </Grid.Column>
     ));
@@ -29,7 +29,7 @@ class NewArrivals extends Component {
         >
           New Arrivals
         </Header>
-        <Grid columns={3} stackable>
+        <Grid centered columns={3} stackable>
           {this.props.products
             ? this.renderProductCards(this.props.products)
             : null}

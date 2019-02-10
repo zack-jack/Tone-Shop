@@ -1,15 +1,79 @@
 .product {
   &__container {
     padding-bottom: 2rem;
+
+    @include desktop {
+      padding: 2rem 4rem;
+    }
+
+    @include phone {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  &__row {
+    margin-bottom: 6rem;
+
+    @include tablet-large {
+      margin-bottom: 3rem;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 1rem !important;
+  }
+
+  &__subheading {
+    margin-top: 0 !important;
+  }
+
+  &__heading-divider {
+    margin-bottom: 4rem !important;
+  }
+
+  &__details {
+    padding: 2rem 0 0 6rem !important;
+
+    @include tablet {
+      text-align: center;
+    }
+  }
+
+  &__details-text {
+    @include tablet {
+      padding-top: 4rem;
+      text-align: center;
+    }
   }
 
   &__description {
-    line-height: 1.75;
+    max-width: 80%;
+    text-align: justify;
+
+    @include tablet-large {
+      max-width: 95%;
+    }
+
+    @include tablet {
+      margin-top: 4rem !important;
+      max-width: 100%;
+    }
   }
 
-  &__grid {
+  &__description-body {
+    line-height: 2;
+  }
+
+  &__specs {
+    max-width: 80%;
+
+    @include tablet-large {
+      max-width: 95%;
+    }
+
     @include tablet {
-      justify-content: center;
+      max-width: 100%;
     }
   }
 }

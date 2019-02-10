@@ -167,29 +167,38 @@ class Product extends Component {
       <Loading />
     ) : (
       <Container className="product__container">
-        <Header as="h2">{this.state.currentProduct.name}</Header>
-        <Header>{this.state.brand}</Header>
-        <Grid>
-          <Grid.Row columns={2} style={{ marginBottom: '6rem' }}>
-            <Grid.Column padded="true">
+        <Header as="h2" className="product__heading">
+          {this.state.brand}
+        </Header>
+        <Header as="h3" className="product__subheading">
+          {this.state.currentProduct.name}
+        </Header>
+
+        <Divider section className="product__heading-divider" />
+
+        <Grid stackable>
+          <Grid.Row columns={2} className="product__row">
+            <Grid.Column computer={8} className="product__image">
               <Slider {...this.state.sliderSettings}>
                 {this.renderSliderImages()}
               </Slider>
             </Grid.Column>
-            <Grid.Column padded="true">
-              <Header>${this.state.currentProduct.price.toFixed(2)}</Header>
-              <p>{this.state.currentProduct.color}</p>
-              {this.state.currentProduct.available ? (
-                <div>
-                  <Icon name="checkmark" color="green" />
-                  <p>In Stock!</p>
-                </div>
-              ) : (
-                <div>
-                  <Icon name="x" color="red" />
-                  <p>Currently Unavailable</p>
-                </div>
-              )}
+            <Grid.Column className="product__details">
+              <div className="product__details-text">
+                <Header>${this.state.currentProduct.price.toFixed(2)}</Header>
+                <p>{this.state.currentProduct.color}</p>
+                {this.state.currentProduct.available ? (
+                  <div>
+                    <Icon name="checkmark" color="green" />
+                    <p>In Stock!</p>
+                  </div>
+                ) : (
+                  <div>
+                    <Icon name="x" color="red" />
+                    <p>Currently Unavailable</p>
+                  </div>
+                )}
+              </div>
               <Divider hidden />
 
               <Button
@@ -201,15 +210,18 @@ class Product extends Component {
               </Button>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row style={{ marginBottom: '2rem' }}>
+          <Grid.Row
+            style={{ marginBottom: '2rem' }}
+            className="product__description"
+          >
             <Header>Description</Header>
-            <p className="product__description">
+            <p className="product__description-body">
               {this.state.currentProduct.description}
             </p>
           </Grid.Row>
-          <Grid.Row>
+          <Grid.Row className="product__specs">
             <Header>Specs</Header>
-            <Table celled fixed singleLine striped>
+            <Table celled fixed singleLine striped className="product__table">
               <Table.Body>{this.renderSpecsTable()}</Table.Body>
             </Table>
           </Grid.Row>

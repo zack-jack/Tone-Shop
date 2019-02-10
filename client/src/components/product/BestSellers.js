@@ -29,7 +29,7 @@ class BestSellers extends Component {
         >
           Best Sellers
         </Header>
-        <Grid columns={3} stackable>
+        <Grid centered columns={3} stackable>
           {this.props.products
             ? this.renderProductCards(this.props.products)
             : null}
