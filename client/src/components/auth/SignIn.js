@@ -153,7 +153,7 @@ class SignIn extends Component {
                 </div>
               </Form>
 
-              {errors.length > 0 && (
+              {errors && errors.length > 0 && (
                 <Message error content={this.renderErrors(errors)} />
               )}
             </Grid.Column>
