@@ -78,7 +78,7 @@ class SignIn extends Component {
 
             setTimeout(() => {
               // If signin call returns errors, set submitting back to false
-              if (this.state.errors.length > 0) {
+              if (this.state.errors && this.state.errors.length > 0) {
                 this.setState({ isSubmitting: false });
               }
             }, 400);
