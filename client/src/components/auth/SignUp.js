@@ -70,6 +70,8 @@ class SignUp extends Component {
           })
           .then(() => {
             if (this.props.auth.authenticated) {
+              this.props.clearAuthErrors();
+
               // Set current user in redux
               this.props.setCurrentUser().then(() => {
                 if (this.state.cart.length > 0) {

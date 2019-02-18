@@ -60,18 +60,19 @@ class SignIn extends Component {
             this.setState({ isSubmitting: false });
           })
           .then(() => {
-            // Set current user in redux
-            this.props.setCurrentUser().then(() => {
-              if (this.state.cart.length > 0) {
-                // Redirect user to shopping cart
-                this.props.history.push('/cart');
-              } else {
-                // Redirect to user account page
-                this.props.history.push('/account');
-              }
-            });
-
-            this.props.clearAuthErrors();
+            if (this.props.auth.authenticated) {
+              this.props.clearAuthErrors();
+              // Set current user in redux
+              this.props.setCurrentUser().then(() => {
+                if (this.state.cart.length > 0) {
+                  // Redirect user to shopping cart
+                  this.props.history.push('/cart');
+                } else {
+                  // Redirect to user account page
+                  this.props.history.push('/account');
+                }
+              });
+            }
 
             setTimeout(() => {
               // If signin call returns errors, set submitting back to false
