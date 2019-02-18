@@ -62,6 +62,7 @@ class SignIn extends Component {
           .then(() => {
             if (this.props.auth.authenticated) {
               this.props.clearAuthErrors();
+
               // Set current user in redux
               this.props.setCurrentUser().then(() => {
                 if (this.state.cart.length > 0) {
@@ -178,6 +179,7 @@ class SignIn extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth,
     cart: state.user.cart,
     errors: state.auth.errors
   };
