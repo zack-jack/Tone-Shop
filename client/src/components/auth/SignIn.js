@@ -28,11 +28,6 @@ class SignIn extends Component {
     isSubmitting: false
   };
 
-  componentWillUnmount() {
-    // Clears error state on navigating away
-    this.props.clearAuthErrors();
-  }
-
   componentWillReceiveProps(nextProps) {
     // Check if the component state errors array is different than the one in redux
     if (nextProps.errors !== this.state.errors) {
@@ -75,6 +70,8 @@ class SignIn extends Component {
                 this.props.history.push('/account');
               }
             });
+
+            this.props.clearAuthErrors();
 
             setTimeout(() => {
               // If signin call returns errors, set submitting back to false

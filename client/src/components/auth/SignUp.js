@@ -34,11 +34,6 @@ class SignUp extends Component {
     isSubmitting: false
   };
 
-  componentWillUnmount() {
-    // Clears error state on navigating away
-    this.props.clearAuthErrors();
-  }
-
   componentWillReceiveProps(nextProps) {
     // Check if the component state errors array is different than the one in redux
     if (nextProps.errors !== this.state.errors) {
@@ -68,25 +63,24 @@ class SignUp extends Component {
         }
       },
       () => {
-        // Clear errors state
-        this.props.clearAuthErrors();
-
         // Execute redux action to sign in and authenticate user
         this.props
           .signUp(this.state.formData, () => {
             this.setState({ isSubmitting: false });
           })
           .then(() => {
-            // Set current user in redux
-            this.props.setCurrentUser().then(() => {
-              if (this.state.cart.length > 0) {
-                // Redirect user to shopping cart
-                this.props.history.push('/cart');
-              } else {
-                // Redirect to user account page
-                this.props.history.push('/account');
-              }
-            });
+            if (this.props.auth.authenticated) {
+              // Set current user in redux
+              this.props.setCurrentUser().then(() => {
+                if (this.state.cart.length > 0) {
+                  // Redirect user to shopping cart
+                  this.props.history.push('/cart');
+                } else {
+                  // Redirect to user account page
+                  this.props.history.push('/account');
+                }
+              });
+            }
 
             setTimeout(() => {
               // If signin call returns errors, set submitting back to false
@@ -200,6 +194,7 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth,
     cart: state.user.cart,
     errors: state.auth.errors
   };
